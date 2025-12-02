@@ -8,7 +8,7 @@ import ArgumentParser
 import Foundation
 
 @main
-struct howhot: ParsableCommand {
+struct howhot: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "howhot",
         abstract: "A command-line tool to check the weather.",
