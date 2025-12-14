@@ -50,7 +50,7 @@ let package = Package(
         .target(name: "Common", dependencies: [.swiftConfiguration]),
         .target(name: "GeoLookup", dependencies: [.apiNetworking, .common]),
         .target(name: "IPAddressLookup", dependencies: []),
-        .target(name: "OpenWeatherMap", dependencies: [.common]),
+        .target(name: "OpenWeatherMap", dependencies: [.apiNetworking, .common]),
         .executableTarget(
             name: "howhot",
             dependencies: [

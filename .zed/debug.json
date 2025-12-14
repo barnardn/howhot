@@ -12,14 +12,13 @@
             "adapter": "Swift"
     },
     {
-        "label": "Debug Config",
+        "label": "Debug Conditions",
             "build": {
                 "command": "swift",
                     "args": ["build"]
             },
-            "env": { "OPENWEATHERMAP": "bogus-value" },
             "program": "$ZED_WORKTREE_ROOT/.build/arm64-apple-macosx/debug/howhot",
-            "args": [],
+            "args": ["conditions", "49002"],
             "request": "launch",
             "adapter": "Swift"
     },

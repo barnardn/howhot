@@ -1,13 +1,27 @@
+import APINetworking
 import ArgumentParser
+import Common
+import Configuration
 import Foundation
+import OpenWeatherMap
 
-struct CurrentConditionsCommand: ParsableCommand {
+struct CurrentConditionsCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "conditions",
-        abstract: "Get current the weather conditions from the current location.",
+        abstract: "Get current the weather conditions from the current location."
     )
 
-    mutating func run() throws {
-        print("Getting current weather conditions...")
+    @Argument(help: "The zip code of the current weather")
+    var zip: String
+
+    mutating func run() async throws {
+        let config = try await AppConfig.configReader()
+
+        guard let apiKey = config.string(forKey: "openweathermap") else {
+            throw AppError.missingApiKey("Openweathermap.org")
+        }
+        let client = OpenWeatherMapClient(apiKey: apiKey, apiProvider: .default)
+        let conditions = try await client.currentConditions(zip: zip)
+        print(conditions)
     }
 }
