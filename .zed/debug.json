@@ -1,14 +1,26 @@
 [
-  {
-    "label": "Debug IPLookup",
-    "build": {
-      "command": "swift",
-      "args": ["build"]
+    {
+        "label": "Debug IPLookup",
+            "build": {
+                "command": "swift",
+                    "args": ["build"]
+            },
+            "env": { "OPENWEATHERMAP_API": "bogus-value" },
+            "program": "$ZED_WORKTREE_ROOT/.build/arm64-apple-macosx/debug/howhot",
+            "args": ["iplookup"],
+            "request": "launch",
+            "adapter": "Swift"
     },
-    "env": { "OPENWEATHERMAP_API": "bogus-value" },
-    "program": "$ZED_WORKTREE_ROOT/.build/arm64-apple-macosx/debug/howhot",
-    "args": ["iplookup"],
-    "request": "launch",
-    "adapter": "Swift"
-  }
+    {
+        "label": "Debug Config",
+            "build": {
+                "command": "swift",
+                    "args": ["build"]
+            },
+            "env": { "OPENWEATHERMAP": "bogus-value" },
+            "program": "$ZED_WORKTREE_ROOT/.build/arm64-apple-macosx/debug/howhot",
+            "args": [],
+            "request": "launch",
+            "adapter": "Swift"
+    },
 ]

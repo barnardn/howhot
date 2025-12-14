@@ -5,13 +5,18 @@ import PackageDescription
 
 extension Target.Dependency {
     // internal
-    static var geoLookup: Self { "GeoLookup" }
-    static var ipAddressLookup: Self { "IPAddressLookup" }
     static var apiNetworking: Self { "APINetworking" }
+    static var configuration: Self { "Configuration" }
+    static var ipAddressLookup: Self { "IPAddressLookup" }
+    static var geoLookup: Self { "GeoLookup" }
 
     // external
     static var swiftArgumentParger: Self {
         .product(name: "ArgumentParser", package: "swift-argument-parser")
+    }
+
+    static var swiftConfiguration: Self {
+        .product(name: "Configuration", package: "swift-configuration")
     }
 }
 
@@ -26,19 +31,27 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
+        .package(
+            url: "https://github.com/apple/swift-configuration",
+            from: "1.0.0",
+            traits: [.defaults, "YAML"]
+        ),
+        // Only added explicitly as a workaround for https://github.com/apple/swift-configuration/issues/89
+        .package(url: "https://github.com/jpsim/Yams", "5.4.0"..<"7.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
-        .target(name: "IPAddressLookup", dependencies: []),
         .target(name: "APINetworking", dependencies: []),
         .target(name: "GeoLookup", dependencies: [.apiNetworking]),
+        .target(name: "IPAddressLookup", dependencies: []),
         .executableTarget(
             name: "howhot",
             dependencies: [
                 .swiftArgumentParger,
                 .ipAddressLookup,
                 .geoLookup,
+                .swiftConfiguration,
             ]
         ),
     ]
