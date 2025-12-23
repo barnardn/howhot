@@ -49,7 +49,7 @@ let package = Package(
         .target(name: "APINetworking", dependencies: []),
         .target(name: "Common", dependencies: [.swiftConfiguration]),
         .target(name: "GeoLookup", dependencies: [.apiNetworking, .common]),
-        .target(name: "IPAddressLookup", dependencies: []),
+        .target(name: "IPAddressLookup", dependencies: [.apiNetworking]),
         .target(name: "OpenWeatherMap", dependencies: [.apiNetworking, .common]),
         .executableTarget(
             name: "howhot",

@@ -23,8 +23,8 @@ final public class OpenWeatherMapClient {
         }
 
         do {
-            let (conditions, _): (Container, _) = try await apiProvider.apiResponse(request: .init(url: url))
-            return conditions
+            let response = try await apiProvider.apiResponse(Container.self, request: .init(url: url))
+            return response.payload
         } catch {
             throw AppError.uncategorized(error.localizedDescription)
         }
