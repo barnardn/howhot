@@ -14,6 +14,9 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
     @Argument(help: "The zip code of the current weather")
     var zip: String
 
+    @Flag(help: "Metric units instead of imperial")
+    var metric = false
+
     mutating func run() async throws {
         let config = try await AppConfig.configReader()
 
@@ -21,7 +24,7 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
             throw AppError.missingApiKey("Openweathermap.org")
         }
         let client = OpenWeatherMapClient(apiKey: apiKey, apiProvider: .default)
-        let conditions = try await client.currentConditions(zip: zip)
+        let conditions = try await client.currentConditions(zip: zip, isMetric: metric)
         print(conditions)
     }
 }

@@ -14,8 +14,9 @@ final public class OpenWeatherMapClient {
         self.apiProvider = apiProvider
     }
 
-    public func currentConditions(zip: String) async throws -> Container {
-        let path = String.init(format: conditionsPath, apiKey, zip, "imperial")
+    public func currentConditions(zip: String, isMetric: Bool = false) async throws -> Container {
+        let units = isMetric ? "metric" : "imperial"
+        let path = String.init(format: conditionsPath, apiKey, zip, units)
         let link = "https://\(host)/\(path)"
 
         guard let url = URL(string: link) else {
