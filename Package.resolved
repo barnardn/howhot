@@ -1,6 +1,15 @@
 {
-  "originHash" : "188c881a2ef477add98ebab0ecbb07b20bf0cfed53540441cbeee34bf70adee5",
+  "originHash" : "70d2cf29b1ae1bf7577558d3541710007ab7d2a0803bd8ff9b4436db156a6138",
   "pins" : [
+    {
+      "identity" : "console-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/console-kit",
+      "state" : {
+        "revision" : "772b4c8af7a196d86b6e117c0eb4261856baa822",
+        "version" : "5.0.0-alpha.4"
+      }
+    },
     {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",

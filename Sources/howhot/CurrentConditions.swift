@@ -2,6 +2,7 @@ import APINetworking
 import ArgumentParser
 import Common
 import Configuration
+import ConsoleKit
 import Foundation
 import OpenWeatherMap
 
@@ -21,6 +22,7 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
     var formatString: String? = nil
 
     mutating func run() async throws {
+        let term = Terminal()
         let config = try await AppConfig.configReader()
 
         guard let apiKey = config.string(forKey: "openweathermap") else {
@@ -31,7 +33,8 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
         let conditions = WeatherConditions(from: owConditions)
         if let formatString {
             let r = try conditions.parse(format: formatString)
-            print(r)
+            let frag = ConsoleTextFragment(string: r, style: .init(color: .brightCyan))
+            term.output(ConsoleText(fragments: [frag]))
         } else {
             print(conditions)
         }

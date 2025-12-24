@@ -20,6 +20,10 @@ extension Target.Dependency {
     static var swiftConfiguration: Self {
         .product(name: "Configuration", package: "swift-configuration")
     }
+
+    static var consoleKit: Self {
+        .product(name: "ConsoleKit", package: "console-kit")
+    }
 }
 
 let package = Package(
@@ -42,6 +46,7 @@ let package = Package(
         ),
         // Only added explicitly as a workaround for https://github.com/apple/swift-configuration/issues/89
         .package(url: "https://github.com/jpsim/Yams", "5.4.0"..<"7.0.0"),
+        .package(url: "https://github.com/vapor/console-kit", from: "5.0.0-alpha.4"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -59,6 +64,7 @@ let package = Package(
                 .geoLookup,
                 .openWeatherMap,
                 .swiftConfiguration,
+                .consoleKit,
             ]
         ),
     ]
