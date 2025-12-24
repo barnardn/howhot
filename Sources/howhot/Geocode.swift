@@ -3,7 +3,6 @@ import Common
 import Configuration
 import Foundation
 import GeoLookup
-import SystemPackage
 
 struct GeocodeCommand: AsyncParsableCommand {
     @OptionGroup var appOptions: AppOptions

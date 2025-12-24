@@ -29,7 +29,6 @@ final public class GeolocatedIOClient {
         do {
             let response = try await apiProvider.apiResponse(StandardLookupResponse.self, request: URLRequest(url: url))
             return response.payload.toLocationInfo()
-
         } catch let error as DecodingError {
             throw GeoLocationError.badEncoding(error)
         } catch let error as GeoLocationError {

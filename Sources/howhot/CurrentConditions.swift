@@ -17,6 +17,9 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
     @Flag(help: "Metric units instead of imperial")
     var metric = false
 
+    @Option(help: "Returns the values in the format string")
+    var formatString: String? = nil
+
     mutating func run() async throws {
         let config = try await AppConfig.configReader()
 
@@ -24,7 +27,13 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
             throw AppError.missingApiKey("Openweathermap.org")
         }
         let client = OpenWeatherMapClient(apiKey: apiKey, apiProvider: .default)
-        let conditions = try await client.currentConditions(zip: zip, isMetric: metric)
-        print(conditions)
+        let owConditions = try await client.currentConditions(zip: zip, isMetric: metric)
+        let conditions = WeatherConditions(from: owConditions)
+        if let formatString {
+            let r = try conditions.parse(format: formatString)
+            print(r)
+        } else {
+            print(conditions)
+        }
     }
 }
