@@ -2,7 +2,7 @@ import Foundation
 
 private let DegreesSymbol = "°"
 
-struct WeatherConditions {
+struct WeatherConditions: CustomStringConvertible {
     let location: LocationDetails
     let summary: String // conditionDescription
     let temperature: Temperature
@@ -14,6 +14,28 @@ struct WeatherConditions {
     let clouds: PercentReading?
     let rain: RatePerHour?
     let snow: RatePerHour?
+
+    var description: String {
+        let nonOptional = """
+        Current Weather Conditions
+        ------- ------- ----------
+        \(location)
+        \(summary)
+        Temperature: \(temperature)
+        Feels Like: \(feelsLike)
+        Highest Reported: \(localMax)
+        Lowest Reported: \(localMin)
+        Humidity: \(humidity)
+        """
+        let maybeValues = [
+            surfaceWind.flatMap { "\($0)" },
+            clouds.flatMap { "Cloud Cover: \($0)" },
+            rain.flatMap { "Rain: \($0)" },
+            snow.flatMap { "Snow: \($0) " },
+        ]
+        .compactMap { $0 }
+        return "\(nonOptional)\n\(maybeValues.joined(separator: "\n"))"
+    }
 }
 
 struct GPS: CustomStringConvertible {
@@ -21,7 +43,7 @@ struct GPS: CustomStringConvertible {
     let lon: Float
 
     var description: String {
-        "\(lat)\(DegreesSymbol)\(lon)\(DegreesSymbol)"
+        "\(lat)\(DegreesSymbol), \(lon)\(DegreesSymbol)"
     }
 }
 
@@ -68,14 +90,14 @@ struct LocationDetails: CustomStringConvertible {
 
     var description: String {
         let df = DateFormatter()
-        df.dateFormat = "YYYY-MM-dd `at` HH:mm zzz"
+        df.dateFormat = "YYYY-MM-dd 'at' h:mm a zzz"
         df.timeZone = timezone
 
         return """
         \(country), \(name)
         Sunrise: \(df.string(from: sunrise))
         Sunset: \(df.string(from: sunset))
-        \(gps)
+        Coordinates: \(gps)
         """
     }
 }

@@ -15,11 +15,11 @@ enum Speed: CustomStringConvertible {
     var description: String {
         let units = switch self {
         case .mph:
-            "MPH"
+            "mph"
         case .kph:
-            "KPH"
+            "kph"
         }
-        return String(format: "%0.2f%@", magnitude, units)
+        return String(format: "%0.1f%@", magnitude, units)
     }
 }
 
@@ -50,7 +50,7 @@ enum RatePerHour: CustomStringConvertible {
         case .inches:
             "inches/hour"
         }
-        return String(format: "%0.2f%@", reading, units)
+        return String(format: "%0.1f %@", reading, units)
     }
 
     static func measured(reading: Float, isMetric: Bool = false) -> Self {
@@ -87,7 +87,7 @@ enum Temperature: CustomStringConvertible {
         case .fahrenheit:
             "℉"
         }
-        return String(format: "%0.2f%@", reading, units)
+        return String(format: "%0.1f%@", reading, units)
     }
 
     static func measured(value: Float, isMetric: Bool) -> Temperature {
