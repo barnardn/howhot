@@ -18,7 +18,7 @@ final public class AmazonClient {
     public func fetchIPAddress() async throws -> String {
         do {
             let payload = try await apiProvider.apiResponse(String.self, url: url, decoder: StringDecoder())
-            return payload.payload
+            return payload.payload.trimmingCharacters(in: .whitespacesAndNewlines)
         } catch {
             throw LookupError.network(error)
         }

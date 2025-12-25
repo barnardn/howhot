@@ -22,4 +22,15 @@
             "request": "launch",
             "adapter": "Swift"
     },
+    {
+        "label": "Debug default",
+            "build": {
+                "command": "swift",
+                    "args": ["build"]
+            },
+            "program": "$ZED_WORKTREE_ROOT/.build/arm64-apple-macosx/debug/howhot",
+            "args": [],
+            "request": "launch",
+            "adapter": "Swift"
+    },
 ]
