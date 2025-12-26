@@ -3,7 +3,6 @@ import Common
 import Foundation
 
 final public class OpenWeatherMapClient: Sendable {
-    private let successCodes = Set([200, 201, 202, 203, 204, 205])
     private let host = "api.openweathermap.org"
     private let conditionsPath = "data/2.5/weather?appid=%@&zip=%@&units=%@"
     private let apiKey: String

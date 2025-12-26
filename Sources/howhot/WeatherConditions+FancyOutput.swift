@@ -61,6 +61,9 @@ extension WeatherConditions {
         allLines.append(contentsOf: locationLines)
         allLines.append(contentsOf: tempLines)
         allLines.append(humidLine)
+        allLines.append(
+            ConsoleText(fragments: [ConsoleTextFragment(string: summary, style: .init(isBold: true))])
+        )
         let windLine = surfaceWind.flatMap { ws -> ConsoleText in
             var fragments = [
                 ConsoleTextFragment(string: "Wind Speed: "),

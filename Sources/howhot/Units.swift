@@ -59,30 +59,30 @@ enum RatePerHour: CustomStringConvertible {
 }
 
 enum Temperature: CustomStringConvertible {
-    case celcius(Float)
+    case celsius(Float)
     case fahrenheit(Float)
 
     var reading: Float {
         return switch self {
         case let .fahrenheit(reading),
-             let .celcius(reading):
+             let .celsius(reading):
             reading
         }
     }
 
-    func toCelcius() -> Self {
+    func toCelsius() -> Self {
         guard case .fahrenheit = self else { return self }
-        return .celcius(reading * 1.8 + 32.0)
+        return .celsius((reading - 32.0) * 5 / 9)
     }
 
     func toFahrenheit() -> Self {
-        guard case .celcius = self else { return self }
-        return .fahrenheit((reading - 32.0) * 5 / 9)
+        guard case .celsius = self else { return self }
+        return .fahrenheit(reading * 1.8 + 32.0)
     }
 
     var description: String {
         let units = switch self {
-        case .celcius:
+        case .celsius:
             "℃"
         case .fahrenheit:
             "℉"
@@ -91,6 +91,6 @@ enum Temperature: CustomStringConvertible {
     }
 
     static func measured(value: Float, isMetric: Bool) -> Temperature {
-        isMetric ? .celcius(value) : .fahrenheit(value)
+        isMetric ? .celsius(value) : .fahrenheit(value)
     }
 }

@@ -3,11 +3,6 @@ import Foundation
 public struct Coordinates: Codable {
     public let latitude: Float
     public let longitude: Float
-
-    public init(latitude: Float, longitude: Float) {
-        self.latitude = latitude
-        self.longitude = longitude
-    }
 }
 
 extension Coordinates: CustomStringConvertible {
@@ -27,30 +22,6 @@ public struct LocationInfo: Codable {
     public let coordinates: Coordinates
     public let zipCode: String
     public let timeZone: String
-
-    public init(
-        ip: String,
-        countryCode: String,
-        countryName: String,
-        regionName: String,
-        regionCode: String,
-        cityName: String,
-        district: String,
-        coordinates: Coordinates,
-        zipCode: String,
-        timeZone: String
-    ) {
-        self.ip = ip
-        self.countryCode = countryCode
-        self.countryName = countryName
-        self.regionName = regionName
-        self.regionCode = regionCode
-        self.cityName = cityName
-        self.district = district
-        self.coordinates = coordinates
-        self.zipCode = zipCode
-        self.timeZone = timeZone
-    }
 }
 
 extension LocationInfo: CustomStringConvertible {

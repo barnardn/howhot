@@ -1,15 +1,7 @@
 import APINetworking
 import Foundation
 
-public enum GeoLocationError: Error {
-    case invalidURL
-    case badResponse(Data?)
-    case network(Error)
-    case badEncoding(DecodingError)
-}
-
 final public class GeolocatedIOClient {
-    private let successCodes = Set([200, 201, 202, 203, 204, 205])
     private let host = "us-west-1.geolocated.io"
     private let apiKey: String
     private let apiProvider: APIProvider
@@ -26,15 +18,7 @@ final public class GeolocatedIOClient {
         guard let url = URL(string: urlString) else {
             throw ApiError.badURL(urlString)
         }
-        do {
-            let response = try await apiProvider.apiResponse(StandardLookupResponse.self, request: URLRequest(url: url))
-            return response.payload.toLocationInfo()
-        } catch let error as DecodingError {
-            throw GeoLocationError.badEncoding(error)
-        } catch let error as GeoLocationError {
-            throw error
-        } catch {
-            throw GeoLocationError.network(error)
-        }
+        let response = try await apiProvider.apiResponse(StandardLookupResponse.self, request: URLRequest(url: url))
+        return response.payload.toLocationInfo()
     }
 }

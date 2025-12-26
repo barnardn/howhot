@@ -1,4 +1,5 @@
 import Foundation
+import Network
 
 /// Error thrown by APINetworking functions
 public enum ApiError: Error {
@@ -6,6 +7,10 @@ public enum ApiError: Error {
     case requestFailed(HTTPURLResponse)
     case decoding(DecodingError)
     case badURL(String)
+}
+
+public enum HTTPStatusCode {
+    public static let successCodes: Set<Int> = [200, 201, 202, 203, 204, 205]
 }
 
 /// Return type for Api responses that return an empty body
@@ -28,10 +33,33 @@ extension ApiError: CustomStringConvertible {
             } else {
                 "Request Failed (status: \(httpRsp.statusCode))"
             }
-        case let .decoding(deocodeError):
-            "Decoding error: \(deocodeError)"
+        case let .decoding(decodeError):
+            "Decoding error: \(decodeError)"
         case let .badURL(link):
             "Bad URL representation: \(link)"
         }
+    }
+}
+
+public class StringDecoder: NetworkDecoder {
+    public enum StringDecodingError: Error {
+        case invalidUTF8
+        case typeMismatch
+        case badValue
+    }
+
+    public init() { }
+
+    public func decode<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
+        guard type == String.self else {
+            throw StringDecodingError.typeMismatch
+        }
+        guard let string = String(data: data, encoding: .utf8) else {
+            throw StringDecodingError.invalidUTF8
+        }
+        guard let retv = string as? T else {
+            throw StringDecodingError.badValue
+        }
+        return retv
     }
 }

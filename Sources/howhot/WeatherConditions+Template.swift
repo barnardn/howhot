@@ -1,6 +1,6 @@
 import Foundation
 
-enum TemplateKey: String, CaseIterable {
+private enum TemplateKey: String, CaseIterable {
     case temperature
     case feelsLike
     case localMin
@@ -15,9 +15,10 @@ enum TemplateKey: String, CaseIterable {
 extension WeatherConditions {
     enum ParseError: Error {
         case invalidInput(String, [String])
+        case placeholderValueMismatch(String, [String])
     }
 
-    var mapping: [TemplateKey: PartialKeyPath<WeatherConditions>] {
+    private var mapping: [TemplateKey: PartialKeyPath<WeatherConditions>] {
         [
             .temperature: \WeatherConditions.temperature,
             .feelsLike: \WeatherConditions.feelsLike,
@@ -45,7 +46,7 @@ extension WeatherConditions {
         return keys.compactMap(TemplateKey.init(rawValue:))
     }
 
-    private func replaceKeysWithPlacholders(_ str: String) -> String {
+    private func replaceKeysWithPlaceholders(_ str: String) -> String {
         return str.replacing(/\{\w+\}/, with: "%@")
     }
 
@@ -62,7 +63,7 @@ extension WeatherConditions {
     func parse(format: String) throws -> String {
         let keys = try templateKeys(format)
         let replacementValues = try keys.compactMap(description(for:))
-        let placeholder = replaceKeysWithPlacholders(format)
+        let placeholder = replaceKeysWithPlaceholders(format)
         return String(format: placeholder, arguments: replacementValues)
     }
 }

@@ -24,24 +24,3 @@ final public class AmazonClient {
         }
     }
 }
-
-private class StringDecoder: NetworkDecoder {
-    enum StringDecodingError: Error {
-        case invalidUTF8
-        case typeMismatch
-        case badValue
-    }
-
-    func decode<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
-        guard type == String.self else {
-            throw StringDecodingError.typeMismatch
-        }
-        guard let string = String(data: data, encoding: .utf8) else {
-            throw StringDecodingError.invalidUTF8
-        }
-        guard let retv = string as? T else {
-            throw StringDecodingError.badValue
-        }
-        return retv
-    }
-}
