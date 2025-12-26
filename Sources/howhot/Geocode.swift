@@ -17,7 +17,6 @@ struct GeocodeCommand: AsyncParsableCommand {
 
     mutating func run() async throws {
         let config = try await AppConfig.configReader()
-
         guard let apiKey = config.string(forKey: "geokey") else {
             throw AppError.missingApiKey("Geolocated.io")
         }

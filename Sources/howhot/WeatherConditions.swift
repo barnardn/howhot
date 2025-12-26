@@ -15,10 +15,16 @@ struct WeatherConditions: CustomStringConvertible {
     let rain: RatePerHour?
     let snow: RatePerHour?
 
-    var description: String {
-        let nonOptional = """
+    var header: String {
+        """
         Current Weather Conditions
         ------- ------- ----------
+        """
+    }
+
+    var description: String {
+        let nonOptional = """
+        \(header)
         \(location)
         \(summary)
         Temperature: \(temperature)
@@ -88,11 +94,25 @@ struct LocationDetails: CustomStringConvertible {
         self.timezone = TimeZone(secondsFromGMT: tzOffset) ?? .gmt
     }
 
-    var description: String {
+    private func localDateFormatter() -> DateFormatter {
         let df = DateFormatter()
         df.dateFormat = "YYYY-MM-dd 'at' h:mm a zzz"
         df.timeZone = timezone
+        return df
+    }
 
+    var formattedSunrise: String {
+        let df = localDateFormatter()
+        return df.string(from: sunrise)
+    }
+
+    var formattedSunset: String {
+        let df = localDateFormatter()
+        return df.string(from: sunset)
+    }
+
+    var description: String {
+        let df = localDateFormatter()
         return """
         \(country), \(name)
         Sunrise: \(df.string(from: sunrise))
