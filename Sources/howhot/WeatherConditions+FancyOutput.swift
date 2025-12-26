@@ -12,7 +12,7 @@ extension WeatherConditions {
         case sweltering
 
         static func zone(for temp: Temperature) -> Self {
-            switch temp.reading {
+            switch temp.toFahrenheit().reading.rounded() {
             case ..<20:
                 .bitter
             case 20..<32:
@@ -83,6 +83,7 @@ extension WeatherConditions {
             textLine(for: "Cloud Cover", value: "\(clouds)")
         }
         allLines.appendIf(cloudLine)
+
         let rainLine = rain.flatMap { rain in
             textLine(for: "Rain", value: "\(rain)")
         }
