@@ -30,7 +30,7 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
         let conditions: WeatherConditions
         if appOptions.boringOutput || formatString != nil {
             let owConditions = try await client.currentConditions(zip: zip, isMetric: appOptions.metric)
-            conditions = WeatherConditions(from: owConditions)
+            conditions = WeatherConditions(from: owConditions, isMetric: appOptions.metric)
             if let formatString {
                 let formatted = try conditions.parse(format: formatString)
                 print(formatted)
@@ -41,7 +41,7 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
             let loadingBar = terminal.loadingBar(title: "Loading...")
             conditions = try await loadingBar.withActivityIndicator { [zip, isMetric = appOptions.metric] in
                 let owConditions = try await client.currentConditions(zip: zip, isMetric: isMetric)
-                return WeatherConditions(from: owConditions)
+                return WeatherConditions(from: owConditions, isMetric: isMetric)
             }
             let consoleLines = conditions.fancyOutput()
             consoleLines.forEach { line in
