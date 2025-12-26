@@ -79,21 +79,19 @@ extension WeatherConditions {
             return ConsoleText(fragments: fragments)
         }
         allLines.appendIf(windLine)
-        if let clouds = clouds {
-            allLines.append(
-                textLine(for: "Cloud Cover", value: "\(clouds)")
-            )
+        let cloudLine = clouds.flatMap { clouds in
+            textLine(for: "Cloud Cover", value: "\(clouds)")
         }
-        if let rain = rain {
-            allLines.append(
-                textLine(for: "Rain", value: "\(rain)")
-            )
+        allLines.appendIf(cloudLine)
+        let rainLine = rain.flatMap { rain in
+            textLine(for: "Rain", value: "\(rain)")
         }
-        if let snow = snow {
-            allLines.append(
-                textLine(for: "Snow", value: "\(snow)")
-            )
+        allLines.appendIf(rainLine)
+
+        let snowLine = snow.flatMap { snow in
+            textLine(for: "Snow", value: "\(snow)")
         }
+        allLines.appendIf(snowLine)
         return allLines
     }
 
