@@ -6,7 +6,8 @@ public enum AppConfig {
     public static let defaultConfigFile = "~/.config/howhot.yaml"
     public static let environmentVarPrefix = "howhot"
 
-    public static func configReader(configPath: String = Self.defaultConfigFile) async throws -> ConfigReader {
+    public static func configReader(configPath: String?) async throws -> ConfigReader {
+        let configPath = configPath ?? defaultConfigFile
         let environmentProvider = EnvironmentVariablesProvider()
             .prefixKeys(with: ConfigKey(Self.environmentVarPrefix))
 

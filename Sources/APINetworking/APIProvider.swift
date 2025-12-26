@@ -6,7 +6,7 @@ public struct APIResponse<RT: Decodable> {
     public let response: HTTPURLResponse
 }
 
-public class APIProvider {
+final public class APIProvider: Sendable {
     private let transport: NetworkTransport
 
     public init(transport: NetworkTransport = URLSession.shared) {

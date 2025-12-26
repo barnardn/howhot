@@ -7,7 +7,7 @@ public enum AppError: Error, CustomStringConvertible {
     public var description: String {
         switch self {
         case let .missingApiKey(keyName):
-            "Missing API key for \(keyName)"
+            "Missing API key \(keyName). Add to environment or configuration file."
         case let .uncategorized(message):
             "Uncategorized(\(message))"
         }
