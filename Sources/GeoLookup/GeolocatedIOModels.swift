@@ -18,7 +18,6 @@ public struct LocationInfo: Codable {
     public let regionName: String
     public let regionCode: String
     public let cityName: String
-    public let district: String
     public let coordinates: Coordinates
     public let zipCode: String
     public let timeZone: String
@@ -49,7 +48,6 @@ struct StandardLookupResponse: Codable {
     let regionName: String
     let regionCode: String
     let cityName: String
-    let district: String
     let latitude: Float
     let longitude: Float
     let zipCode: String
@@ -67,7 +65,6 @@ struct StandardLookupResponse: Codable {
         case regionName
         case regionCode
         case cityName
-        case district
         case latitude
         case longitude
         case zipCode
@@ -83,7 +80,6 @@ struct StandardLookupResponse: Codable {
             regionName: regionName,
             regionCode: regionCode,
             cityName: cityName,
-            district: district,
             coordinates: Coordinates(latitude: latitude, longitude: longitude),
             zipCode: zipCode,
             timeZone: timeZone
