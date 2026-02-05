@@ -26,7 +26,7 @@ struct howhot: AsyncParsableCommand {
         commandName: "howhot",
         abstract: "A command-line tool to check the weather.",
         discussion: "This tool uses the OpenWeatherMap API to retrieve weather information.",
-        version: "1.0.0",
+        version: "1.0.1",
         subcommands: [GeocodeCommand.self, IPLookupCommand.self, CurrentConditionsCommand.self]
     )
     @OptionGroup var appOptions: AppOptions
@@ -59,12 +59,20 @@ struct howhot: AsyncParsableCommand {
                 }
             }
         } catch {
-            if !appOptions.boringOutput {
-                let errMsg = ConsoleTextFragment(string: "\(error)", style: .error)
-                terminal.output(ConsoleText(fragments: [errMsg]))
+            if let lookupError = error as? LookupError, case .network = lookupError {
+                reportError(message: "Network error. Check connection and try again.", to: terminal)
             } else {
-                terminal.output("\(error)")
+                reportError(message: "\(error)", to: terminal)
             }
+        }
+    }
+
+    private func reportError(message: String, to terminal: Terminal) {
+        if !appOptions.boringOutput {
+            let errMsg = ConsoleTextFragment(string: "\(message)", style: .error)
+            terminal.output(ConsoleText(fragments: [errMsg]))
+        } else {
+            terminal.output(message)
         }
     }
 
