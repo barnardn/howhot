@@ -16,6 +16,23 @@ You'll need to add your api keys to a configuration file (default: `~/.config/ho
 openweathermap: "some-openweathermap-key-here"
 geokey: "some-geolocated-io-key-here"
 ```
+
+#### Temperature Zones
+
+You specify your own custom temperature zones by providing the maximum temperature valur for the supported zone name. 
+
+```
+zones:
+  bitter: 20
+  cold: 32
+  chilly: 50
+  pleasant: 75
+  warm: 81
+  hot: 90
+```
+
+For example, `warm` is less than 81°F and warmer than 75°F
+
 For your environment, name each variable name with the `howhot` prefix:
 
 ```
