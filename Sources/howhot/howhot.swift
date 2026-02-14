@@ -26,7 +26,7 @@ struct howhot: AsyncParsableCommand {
         commandName: "howhot",
         abstract: "A command-line tool to check the weather.",
         discussion: "This tool uses the OpenWeatherMap API to retrieve weather information.",
-        version: "1.0.1",
+        version: "1.1.1",
         subcommands: [GeocodeCommand.self, IPLookupCommand.self, CurrentConditionsCommand.self]
     )
     @OptionGroup var appOptions: AppOptions
