@@ -43,6 +43,7 @@ struct howhot: AsyncParsableCommand {
         else {
             throw AppError.missingApiKey("openweathermap")
         }
+
         let terminal = Terminal()
         do {
             if appOptions.boringOutput {
@@ -53,7 +54,8 @@ struct howhot: AsyncParsableCommand {
                 let conditions = try await loadingBar.withActivityIndicator { [self] in
                     try await fetchConditions(geoKey: geoKey, weatherKey: weatherKey)
                 }
-                let consolLines = conditions.fancyOutput()
+                let zoneMap = WeatherConditions.createZoneMap(configReader: config)
+                let consolLines = conditions.fancyOutput(zoneMap: zoneMap)
                 consolLines.forEach { line in
                     terminal.output(line, newLine: true)
                 }
@@ -104,5 +106,21 @@ extension Array {
 
     mutating func pushIf(_ maybeElement: Element?) {
         insertIf(maybeElement, at: 0)
+    }
+}
+
+extension WeatherConditions {
+    static func createZoneMap(configReader: ConfigReader) -> WeatherConditions.ZoneMap {
+        let zoneCfgReader = configReader.scoped(to: "zones")
+        let keysAndValues = WeatherConditions.TempComfortZone.allCases.compactMap { zone in
+            if let temp = zoneCfgReader.double(forKey: .init(zone.rawValue)) {
+                return (zone, Float(temp))
+            } else {
+                return nil
+            }
+        }
+        return keysAndValues.isEmpty ?
+            WeatherConditions.TempComfortZone.defaultZoneMap :
+            Dictionary(uniqueKeysWithValues: keysAndValues)
     }
 }

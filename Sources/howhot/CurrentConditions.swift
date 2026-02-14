@@ -43,7 +43,8 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
                 let owConditions = try await client.currentConditions(zip: zip, isMetric: isMetric)
                 return WeatherConditions(from: owConditions, isMetric: isMetric)
             }
-            let consoleLines = conditions.fancyOutput()
+            let zoneMap = WeatherConditions.createZoneMap(configReader: config)
+            let consoleLines = conditions.fancyOutput(zoneMap: zoneMap)
             consoleLines.forEach { line in
                 terminal.output(line, newLine: true)
             }

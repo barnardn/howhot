@@ -2,7 +2,9 @@ import ConsoleKit
 import Foundation
 
 extension WeatherConditions {
-    enum TempComfortZone {
+    public typealias ZoneMap = [TempComfortZone: Float]
+
+    public enum TempComfortZone: String, CaseIterable {
         case bitter
         case cold
         case chilly
@@ -11,23 +13,13 @@ extension WeatherConditions {
         case hot
         case sweltering
 
-        static func zone(for temp: Temperature) -> Self {
-            switch temp.toFahrenheit().reading.rounded() {
-            case ..<20:
-                .bitter
-            case 20..<32:
-                .cold
-            case 32..<50:
-                .chilly
-            case 50..<75:
-                .pleasant
-            case 75..<81:
-                .warm
-            case 81..<90:
-                .hot
-            default:
-                .sweltering
+        static func zone(for temp: Temperature, zoneMap: ZoneMap = defaultZoneMap) -> Self {
+            let tempInF = temp.toFahrenheit().reading.rounded()
+            let returnZone = TempComfortZone.allCases.first { zone in
+                let maxTemp = zoneMap[zone] ?? -1_000
+                return maxTemp > tempInF
             }
+            return returnZone ?? .sweltering
         }
 
         var outputStyle: ConsoleStyle {
@@ -37,7 +29,7 @@ extension WeatherConditions {
             case .cold:
                 ConsoleStyle(color: .blue)
             case .chilly:
-                ConsoleStyle(color: .cyan)
+                ConsoleStyle(color: .brightCyan)
             case .pleasant:
                 ConsoleStyle(color: .brightGreen)
             case .warm:
@@ -50,10 +42,10 @@ extension WeatherConditions {
         }
     }
 
-    func fancyOutput() -> [ConsoleText] {
+    func fancyOutput(zoneMap: ZoneMap) -> [ConsoleText] {
         let headerFrag = ConsoleTextFragment(string: header, style: .init(color: .brightWhite, isBold: true))
         let locationLines = locationLines()
-        let tempLines = temperatureLines()
+        let tempLines = temperatureLines(zoneMap: zoneMap)
         let humidLine = textLine(for: "Humidity", value: "\(humidity)")
         var allLines = [
             ConsoleText(fragments: [headerFrag]),
@@ -99,12 +91,12 @@ extension WeatherConditions {
         return allLines
     }
 
-    func temperatureLines() -> [ConsoleText] {
+    func temperatureLines(zoneMap: ZoneMap) -> [ConsoleText] {
         let labels = ["Temperature: ", "Feels Like: ", "Coldest Reported: ", "Warmest Reported: "]
         let labelFragments = labels.map(ConsoleTextFragment.init)
         let readings = [temperature, feelsLike, localMin, localMax]
         let readingFragments = readings.map { temp in
-            let zone = TempComfortZone.zone(for: temp)
+            let zone = TempComfortZone.zone(for: temp, zoneMap: zoneMap)
             let rdgStr = "\(temp)"
             return ConsoleTextFragment(string: rdgStr, style: zone.outputStyle)
         }
@@ -126,5 +118,18 @@ extension WeatherConditions {
         let labelFrag = ConsoleTextFragment(string: "\(label): ")
         let valueFrag = ConsoleTextFragment(string: value, style: .init(isBold: true))
         return ConsoleText(fragments: [labelFrag, valueFrag])
+    }
+}
+
+extension WeatherConditions.TempComfortZone {
+    static var defaultZoneMap: WeatherConditions.ZoneMap {
+        [
+            .bitter: 20,
+            .cold: 32,
+            .chilly: 50,
+            .pleasant: 75,
+            .warm: 81,
+            .hot: 90,
+        ]
     }
 }
