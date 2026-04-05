@@ -1,6 +1,5 @@
 import APINetworking
 import Foundation
-import Network
 
 public enum LookupError: Error {
     case badIPAddress(Data?)

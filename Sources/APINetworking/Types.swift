@@ -1,5 +1,5 @@
 import Foundation
-import Network
+import FoundationNetworking
 
 /// Error thrown by APINetworking functions
 public enum ApiError: Error {
@@ -40,6 +40,12 @@ extension ApiError: CustomStringConvertible {
         }
     }
 }
+
+public protocol NetworkDecoder {
+    func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T
+}
+
+extension JSONDecoder: NetworkDecoder { }
 
 public class StringDecoder: NetworkDecoder {
     public enum StringDecodingError: Error {

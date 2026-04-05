@@ -1,4 +1,5 @@
 import Foundation
+import FoundationNetworking
 
 public protocol NetworkTransport: Sendable {
     func rawResponse(for request: URLRequest) async throws -> (Data, HTTPURLResponse)

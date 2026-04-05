@@ -1,5 +1,5 @@
 import Foundation
-import Network
+import FoundationNetworking
 
 public struct APIResponse<RT: Decodable> {
     public let payload: RT
