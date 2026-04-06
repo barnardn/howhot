@@ -1,5 +1,9 @@
 import Foundation
-import FoundationNetworking
+#if os(Linux)
+    import FoundationNetworking
+#else
+    import Network
+#endif
 
 public struct APIResponse<RT: Decodable> {
     public let payload: RT

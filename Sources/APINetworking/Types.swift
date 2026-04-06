@@ -1,5 +1,10 @@
 import Foundation
-import FoundationNetworking
+#if os(Linux)
+    import FoundationNetworking
+#else
+    import Network
+#endif
+
 
 /// Error thrown by APINetworking functions
 public enum ApiError: Error {

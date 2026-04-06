@@ -1,6 +1,10 @@
 import APINetworking
 import Foundation
-import FoundationNetworking
+#if os(Linux)
+    import FoundationNetworking
+#else
+    import Network
+#endif
 
 final public class GeolocatedIOClient {
     private let host = "us-west-1.geolocated.io"
