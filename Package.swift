@@ -13,25 +13,17 @@ extension Target.Dependency {
     static var openWeatherMap: Self { "OpenWeatherMap" }
 
     // external
-    static var swiftArgumentParger: Self {
-        .product(name: "ArgumentParser", package: "swift-argument-parser")
-    }
+    static var swiftArgumentParger: Self { .product(name: "ArgumentParser", package: "swift-argument-parser") }
 
-    static var swiftConfiguration: Self {
-        .product(name: "Configuration", package: "swift-configuration")
-    }
+    static var swiftConfiguration: Self { .product(name: "Configuration", package: "swift-configuration") }
 
-    static var consoleKit: Self {
-        .product(name: "ConsoleKit", package: "console-kit")
-    }
+    static var consoleKit: Self { .product(name: "ConsoleKit", package: "console-kit") }
 }
 
 let package = Package(
-    name: "howhot",
-    platforms: [.macOS(.v26)],
+    name: "howhot", platforms: [.macOS(.v26)],
     products: [
-        .executable(name: "howhot", targets: ["howhot"]),
-        .library(name: "Common", targets: ["Common"]),
+        .executable(name: "howhot", targets: ["howhot"]), .library(name: "Common", targets: ["Common"]),
         .library(name: "IPAddressLookup", targets: ["IPAddressLookup"]),
         .library(name: "GeoLookup", targets: ["GeoLookup"]),
         .library(name: "APINetworking", targets: ["APINetworking"]),
@@ -39,11 +31,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
-        .package(
-            url: "https://github.com/apple/swift-configuration",
-            from: "1.0.0",
-            traits: [.defaults, "YAML"]
-        ),
+        .package(url: "https://github.com/apple/swift-configuration", from: "1.0.0", traits: [.defaults, "YAML"]),
         // Only added explicitly as a workaround for https://github.com/apple/swift-configuration/issues/89
         .package(url: "https://github.com/jpsim/Yams", "5.4.0"..<"7.0.0"),
         .package(url: "https://github.com/vapor/console-kit", from: "5.0.0-alpha.4"),
@@ -51,21 +39,13 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
-        .target(name: "APINetworking", dependencies: []),
-        .target(name: "Common", dependencies: [.swiftConfiguration]),
+        .target(name: "APINetworking", dependencies: []), .target(name: "Common", dependencies: [.swiftConfiguration]),
         .target(name: "GeoLookup", dependencies: [.apiNetworking, .common]),
         .target(name: "IPAddressLookup", dependencies: [.apiNetworking]),
         .target(name: "OpenWeatherMap", dependencies: [.apiNetworking, .common]),
         .executableTarget(
             name: "howhot",
             dependencies: [
-                .swiftArgumentParger,
-                .ipAddressLookup,
-                .geoLookup,
-                .openWeatherMap,
-                .swiftConfiguration,
-                .consoleKit,
-            ]
-        ),
-    ]
-)
+                .swiftArgumentParger, .ipAddressLookup, .geoLookup, .openWeatherMap, .swiftConfiguration, .consoleKit,
+            ]),
+    ])

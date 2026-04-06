@@ -6,19 +6,16 @@ enum Speed: CustomStringConvertible {
 
     var magnitude: Float {
         return switch self {
-        case let .kph(mag),
-             let .mph(mag):
-            mag
+        case let .kph(mag), let .mph(mag): mag
         }
     }
 
     var description: String {
-        let units = switch self {
-        case .mph:
-            "mph"
-        case .kph:
-            "kph"
-        }
+        let units =
+            switch self {
+            case .mph: "mph"
+            case .kph: "kph"
+            }
         return String(format: "%0.1f%@", magnitude, units)
     }
 }
@@ -26,9 +23,7 @@ enum Speed: CustomStringConvertible {
 struct PercentReading: CustomStringConvertible {
     let reading: Float
 
-    var description: String {
-        String(format: "%0.1f%%", reading)
-    }
+    var description: String { String(format: "%0.1f%%", reading) }
 }
 
 enum RatePerHour: CustomStringConvertible {
@@ -37,25 +32,20 @@ enum RatePerHour: CustomStringConvertible {
 
     var reading: Float {
         return switch self {
-        case let .mm(reading),
-             let .inches(reading):
-            reading
+        case let .mm(reading), let .inches(reading): reading
         }
     }
 
     var description: String {
-        let units = switch self {
-        case .mm:
-            "mm/hour"
-        case .inches:
-            "inches/hour"
-        }
+        let units =
+            switch self {
+            case .mm: "mm/hour"
+            case .inches: "inches/hour"
+            }
         return String(format: "%0.1f %@", reading, units)
     }
 
-    static func measured(reading: Float, isMetric: Bool = false) -> Self {
-        isMetric ? .mm(reading) : .inches(reading)
-    }
+    static func measured(reading: Float, isMetric: Bool = false) -> Self { isMetric ? .mm(reading) : .inches(reading) }
 }
 
 enum Temperature: CustomStringConvertible {
@@ -64,9 +54,7 @@ enum Temperature: CustomStringConvertible {
 
     var reading: Float {
         return switch self {
-        case let .fahrenheit(reading),
-             let .celsius(reading):
-            reading
+        case let .fahrenheit(reading), let .celsius(reading): reading
         }
     }
 
@@ -81,12 +69,11 @@ enum Temperature: CustomStringConvertible {
     }
 
     var description: String {
-        let units = switch self {
-        case .celsius:
-            "℃"
-        case .fahrenheit:
-            "℉"
-        }
+        let units =
+            switch self {
+            case .celsius: "℃"
+            case .fahrenheit: "℉"
+            }
         return String(format: "%0.1f%@", reading, units)
     }
 

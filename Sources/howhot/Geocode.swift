@@ -9,21 +9,15 @@ struct GeocodeCommand: AsyncParsableCommand {
     @OptionGroup var appOptions: AppOptions
 
     static let configuration = CommandConfiguration(
-        commandName: "geocode",
-        abstract: "Determine location via IP address lookup"
-    )
+        commandName: "geocode", abstract: "Determine location via IP address lookup")
 
-    @Option(help: "The ip address to geocode. Defaults to current ip address.")
-    var address: String?
+    @Option(help: "The ip address to geocode. Defaults to current ip address.") var address: String?
 
-    @Flag(name: .shortAndLong, help: "Returns just the zip code")
-    var zipOnly = false
+    @Flag(name: .shortAndLong, help: "Returns just the zip code") var zipOnly = false
 
     mutating func run() async throws {
         let config = try await AppConfig.configReader(configPath: appOptions.configFile)
-        guard let apiKey = config.string(forKey: "geokey") else {
-            throw AppError.missingApiKey("geokey")
-        }
+        guard let apiKey = config.string(forKey: "geokey") else { throw AppError.missingApiKey("geokey") }
         let ipAddress: String
         if let address {
             ipAddress = address
@@ -33,10 +27,6 @@ struct GeocodeCommand: AsyncParsableCommand {
         }
         let geoClient = GeolocatedIOClient(apiKey: apiKey, apiProvider: .default)
         let locationInfo = try await geoClient.geoLocation(ipAddress: ipAddress)
-        if zipOnly {
-            print(locationInfo.zipCode)
-        } else {
-            print(locationInfo.description)
-        }
+        if zipOnly { print(locationInfo.zipCode) } else { print(locationInfo.description) }
     }
 }

@@ -1,10 +1,10 @@
 import Foundation
+
 #if os(Linux)
     import FoundationNetworking
 #else
     import Network
 #endif
-
 
 /// Error thrown by APINetworking functions
 public enum ApiError: Error {
@@ -14,43 +14,30 @@ public enum ApiError: Error {
     case badURL(String)
 }
 
-public enum HTTPStatusCode {
-    public static let successCodes: Set<Int> = [200, 201, 202, 203, 204, 205]
-}
+public enum HTTPStatusCode { public static let successCodes: Set<Int> = [200, 201, 202, 203, 204, 205] }
 
 /// Return type for Api responses that return an empty body
-public struct EmptyResponse: Equatable, Decodable {
-    public init() { }
-}
+public struct EmptyResponse: Equatable, Decodable { public init() {} }
 
 extension ApiError: CustomStringConvertible {
     public var description: String {
         switch self {
-        case let .badResponse(urlRsp):
-            if let url = urlRsp.url {
-                "Bad Response: \(url)"
-            } else {
-                "Bad Response"
-            }
+        case let .badResponse(urlRsp): if let url = urlRsp.url { "Bad Response: \(url)" } else { "Bad Response" }
         case let .requestFailed(httpRsp):
             if let url = httpRsp.url {
                 "Request Failed (status: \(httpRsp.statusCode)): \(url)"
             } else {
                 "Request Failed (status: \(httpRsp.statusCode))"
             }
-        case let .decoding(decodeError):
-            "Decoding error: \(decodeError)"
-        case let .badURL(link):
-            "Bad URL representation: \(link)"
+        case let .decoding(decodeError): "Decoding error: \(decodeError)"
+        case let .badURL(link): "Bad URL representation: \(link)"
         }
     }
 }
 
-public protocol NetworkDecoder {
-    func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T
-}
+public protocol NetworkDecoder { func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T }
 
-extension JSONDecoder: NetworkDecoder { }
+extension JSONDecoder: NetworkDecoder {}
 
 public class StringDecoder: NetworkDecoder {
     public enum StringDecodingError: Error {
@@ -59,18 +46,12 @@ public class StringDecoder: NetworkDecoder {
         case badValue
     }
 
-    public init() { }
+    public init() {}
 
     public func decode<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
-        guard type == String.self else {
-            throw StringDecodingError.typeMismatch
-        }
-        guard let string = String(data: data, encoding: .utf8) else {
-            throw StringDecodingError.invalidUTF8
-        }
-        guard let retv = string as? T else {
-            throw StringDecodingError.badValue
-        }
+        guard type == String.self else { throw StringDecodingError.typeMismatch }
+        guard let string = String(data: data, encoding: .utf8) else { throw StringDecodingError.invalidUTF8 }
+        guard let retv = string as? T else { throw StringDecodingError.badValue }
         return retv
     }
 }

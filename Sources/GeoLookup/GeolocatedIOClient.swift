@@ -1,5 +1,6 @@
 import APINetworking
 import Foundation
+
 #if os(Linux)
     import FoundationNetworking
 #else
@@ -20,9 +21,7 @@ final public class GeolocatedIOClient {
         let path = "ip/\(ipAddress)?api-key=\(apiKey)"
         let urlString = "https://\(host)/\(path)"
 
-        guard let url = URL(string: urlString) else {
-            throw ApiError.badURL(urlString)
-        }
+        guard let url = URL(string: urlString) else { throw ApiError.badURL(urlString) }
         let response = try await apiProvider.apiResponse(StandardLookupResponse.self, request: URLRequest(url: url))
         return response.payload.toLocationInfo()
     }

@@ -4,7 +4,7 @@ private let DegreesSymbol = "°"
 
 struct WeatherConditions: CustomStringConvertible {
     let location: LocationDetails
-    let summary: String // conditionDescription
+    let summary: String  // conditionDescription
     let temperature: Temperature
     let feelsLike: Temperature
     let localMin: Temperature
@@ -24,22 +24,19 @@ struct WeatherConditions: CustomStringConvertible {
 
     var description: String {
         let nonOptional = """
-        \(header)
-        \(location)
-        \(summary)
-        Temperature: \(temperature)
-        Feels Like: \(feelsLike)
-        Highest Reported: \(localMax)
-        Lowest Reported: \(localMin)
-        Humidity: \(humidity)
-        """
+            \(header)
+            \(location)
+            \(summary)
+            Temperature: \(temperature)
+            Feels Like: \(feelsLike)
+            Highest Reported: \(localMax)
+            Lowest Reported: \(localMin)
+            Humidity: \(humidity)
+            """
         let maybeValues = [
-            surfaceWind.flatMap { "\($0)" },
-            clouds.flatMap { "Cloud Cover: \($0)" },
-            rain.flatMap { "Rain: \($0)" },
+            surfaceWind.flatMap { "\($0)" }, clouds.flatMap { "Cloud Cover: \($0)" }, rain.flatMap { "Rain: \($0)" },
             snow.flatMap { "Snow: \($0) " },
-        ]
-        .compactMap { $0 }
+        ].compactMap { $0 }
         return "\(nonOptional)\n\(maybeValues.joined(separator: "\n"))"
     }
 }
@@ -48,9 +45,7 @@ struct GPS: CustomStringConvertible {
     let lat: Float
     let lon: Float
 
-    var description: String {
-        "\(lat)\(DegreesSymbol), \(lon)\(DegreesSymbol)"
-    }
+    var description: String { "\(lat)\(DegreesSymbol), \(lon)\(DegreesSymbol)" }
 }
 
 struct SurfaceWind: CustomStringConvertible {
@@ -61,18 +56,12 @@ struct SurfaceWind: CustomStringConvertible {
     init(windSpeed: Float, gustSpeed: Float?, degrees: Int, isMetric: Bool = false) {
         self.degrees = degrees
         self.winds = isMetric ? .kph(windSpeed) : .mph(windSpeed)
-        if let gustSpeed {
-            self.gusts = isMetric ? .kph(gustSpeed) : .mph(gustSpeed)
-        } else {
-            self.gusts = nil
-        }
+        if let gustSpeed { self.gusts = isMetric ? .kph(gustSpeed) : .mph(gustSpeed) } else { self.gusts = nil }
     }
 
     var description: String {
         let ws = "Wind Speed: \(winds) at \(degrees)\(DegreesSymbol)"
-        if let gusts {
-            return "\(ws) with Gusts at \(gusts)"
-        }
+        if let gusts { return "\(ws) with Gusts at \(gusts)" }
         return ws
     }
 }
@@ -114,10 +103,10 @@ struct LocationDetails: CustomStringConvertible {
     var description: String {
         let df = localDateFormatter()
         return """
-        \(country), \(name)
-        Sunrise: \(df.string(from: sunrise))
-        Sunset: \(df.string(from: sunset))
-        Coordinates: \(gps)
-        """
+            \(country), \(name)
+            Sunrise: \(df.string(from: sunrise))
+            Sunset: \(df.string(from: sunset))
+            Coordinates: \(gps)
+            """
     }
 }

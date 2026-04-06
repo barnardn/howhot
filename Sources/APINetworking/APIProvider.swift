@@ -1,4 +1,5 @@
 import Foundation
+
 #if os(Linux)
     import FoundationNetworking
 #else
@@ -13,38 +14,32 @@ public struct APIResponse<RT: Decodable> {
 final public class APIProvider: Sendable {
     private let transport: NetworkTransport
 
-    public init(transport: NetworkTransport = URLSession.shared) {
-        self.transport = transport
-    }
+    public init(transport: NetworkTransport = URLSession.shared) { self.transport = transport }
 
-    public func apiResponse<RT: Decodable>(_ payloadType: RT.Type, url: URL, decoder: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<RT> {
-        try await apiResponse(payloadType, request: URLRequest(url: url), decoder: decoder)
-    }
+    public func apiResponse<RT: Decodable>(_ payloadType: RT.Type, url: URL, decoder: NetworkDecoder = JSONDecoder())
+        async throws -> APIResponse<RT>
+    { try await apiResponse(payloadType, request: URLRequest(url: url), decoder: decoder) }
 
-    public func apiResponse<RT: Decodable>(_ payloadType: RT.Type, request: URLRequest, decoder: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<RT> {
+    public func apiResponse<RT: Decodable>(
+        _ payloadType: RT.Type, request: URLRequest, decoder: NetworkDecoder = JSONDecoder()
+    ) async throws -> APIResponse<RT> {
         let (data, rsp) = try await transport.rawResponse(for: request)
         let payload = try decoder.decode(RT.self, from: data)
         return APIResponse(payload: payload, response: rsp)
     }
 
-    public func apiResponse(url: URL, decoder: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<EmptyResponse> {
-        try await apiResponse(request: URLRequest(url: url), decoder: decoder)
-    }
+    public func apiResponse(url: URL, decoder: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<
+        EmptyResponse
+    > { try await apiResponse(request: URLRequest(url: url), decoder: decoder) }
 
-    public func apiResponse(request: URLRequest, decoder: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<EmptyResponse> {
+    public func apiResponse(request: URLRequest, decoder: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<
+        EmptyResponse
+    > {
         let (_, rsp) = try await transport.rawResponse(for: request)
         return APIResponse(payload: EmptyResponse(), response: rsp)
     }
 }
 
-public extension APIResponse {
-    var isEmpty: Bool {
-        payload is EmptyResponse
-    }
-}
+extension APIResponse { public var isEmpty: Bool { payload is EmptyResponse } }
 
-public extension APIProvider {
-    static var `default`: APIProvider {
-        APIProvider()
-    }
-}
+extension APIProvider { public static var `default`: APIProvider { APIProvider() } }

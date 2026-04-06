@@ -18,15 +18,11 @@ final public class OpenWeatherMapClient: Sendable {
         let path = String(format: conditionsPath, apiKey, zip, units)
         let link = "https://\(host)/\(path)"
 
-        guard let url = URL(string: link) else {
-            throw AppError.uncategorized("bad url \(link)")
-        }
+        guard let url = URL(string: link) else { throw AppError.uncategorized("bad url \(link)") }
 
         do {
             let response = try await apiProvider.apiResponse(Container.self, request: .init(url: url))
             return response.payload
-        } catch {
-            throw AppError.uncategorized(error.localizedDescription)
-        }
+        } catch { throw AppError.uncategorized(error.localizedDescription) }
     }
 }

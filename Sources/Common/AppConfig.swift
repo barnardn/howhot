@@ -8,8 +8,7 @@ public enum AppConfig {
 
     public static func configReader(configPath: String?) async throws -> ConfigReader {
         let configPath = configPath ?? defaultConfigFile
-        let environmentProvider = EnvironmentVariablesProvider()
-            .prefixKeys(with: ConfigKey(Self.environmentVarPrefix))
+        let environmentProvider = EnvironmentVariablesProvider().prefixKeys(with: ConfigKey(Self.environmentVarPrefix))
 
         let configURL = URL(fileURLWithPath: configPath)
         let path = FilePath(stringLiteral: configURL.path())

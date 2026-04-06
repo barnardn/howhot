@@ -10,15 +10,11 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
     @OptionGroup var appOptions: AppOptions
 
     static let configuration = CommandConfiguration(
-        commandName: "conditions",
-        abstract: "Get current the weather conditions from the current location."
-    )
+        commandName: "conditions", abstract: "Get current the weather conditions from the current location.")
 
-    @Argument(help: "The zip code of the current weather")
-    var zip: String
+    @Argument(help: "The zip code of the current weather") var zip: String
 
-    @Option(help: "Returns the values in the format string (implies boring output mode")
-    var formatString: String? = nil
+    @Option(help: "Returns the values in the format string (implies boring output mode") var formatString: String? = nil
 
     mutating func run() async throws {
         let config = try await AppConfig.configReader(configPath: appOptions.configFile)
@@ -45,9 +41,7 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
             }
             let zoneMap = WeatherConditions.createZoneMap(configReader: config)
             let consoleLines = conditions.fancyOutput(zoneMap: zoneMap)
-            consoleLines.forEach { line in
-                terminal.output(line, newLine: true)
-            }
+            consoleLines.forEach { line in terminal.output(line, newLine: true) }
         }
     }
 }
