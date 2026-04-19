@@ -2,14 +2,13 @@ import Foundation
 
 #if os(Linux)
     import FoundationNetworking
-
-    // macOS defines this in Network
-    public protocol NetworkTransport: Sendable {
-        func rawResponse(for request: URLRequest) async throws -> (Data, HTTPURLResponse)
-    }
 #else
     import Network
 #endif
+
+public protocol NetworkTransport: Sendable {
+    func rawResponse(for request: URLRequest) async throws -> (Data, HTTPURLResponse)
+}
 
 extension URLSession: NetworkTransport {
     public func rawResponse(for request: URLRequest) async throws -> (Data, HTTPURLResponse) {
