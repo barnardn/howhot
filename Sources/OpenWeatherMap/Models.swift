@@ -33,7 +33,7 @@ extension Weather: CustomStringConvertible {
 }
 
 public struct System: Decodable {
-    public let id: Int
+    public let id: Int?
     public let country: String
     public let sunrise: Int64
     public let sunset: Int64
@@ -69,7 +69,7 @@ public struct HourlyRate: Decodable {
 extension HourlyRate: CustomStringConvertible { public var description: String { return "\(rate) mm/h" } }
 
 public struct Conditions: Decodable {
-    public let id: Int
+    public let id: Int?
     public let main: String
     public let conditionDescription: String
     public let icon: String
@@ -87,7 +87,7 @@ extension Conditions: CustomStringConvertible {
 }
 
 public struct Container: Decodable {
-    public let id: Int
+    public let id: Int?
     public let timezone: Int
     public let name: String
     public let visibility: Int

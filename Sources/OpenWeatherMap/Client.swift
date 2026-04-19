@@ -23,6 +23,6 @@ final public class OpenWeatherMapClient: Sendable {
         do {
             let response = try await apiProvider.apiResponse(Container.self, request: .init(url: url))
             return response.payload
-        } catch { throw AppError.uncategorized(error.localizedDescription) }
+        } catch { throw AppError.uncategorized("\(error)") }
     }
 }
