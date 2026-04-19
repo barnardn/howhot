@@ -23,7 +23,8 @@ struct AppOptions: ParsableArguments {
     static let configuration = CommandConfiguration(
         commandName: "howhot", abstract: "A command-line tool to check the weather.",
         discussion: "This tool uses the OpenWeatherMap API to retrieve weather information.", version: "1.1.1",
-        subcommands: [GeocodeCommand.self, IPLookupCommand.self, CurrentConditionsCommand.self])
+        subcommands: [GeocodeCommand.self, IPLookupCommand.self, CurrentConditionsCommand.self]
+    )
     @OptionGroup var appOptions: AppOptions
 
     mutating func run() async throws {
@@ -74,19 +75,24 @@ struct AppOptions: ParsableArguments {
 
         let weatherClient = OpenWeatherMapClient(apiKey: weatherKey, apiProvider: .default)
         let owConditions = try await weatherClient.currentConditions(
-            zip: locationInfo.zipCode, isMetric: appOptions.metric)
+            zip: locationInfo.zipCode, isMetric: appOptions.metric
+        )
         return WeatherConditions(from: owConditions)
     }
 }
 
 extension Array {
-    mutating func appendIf(_ maybeElement: Element?) { if let maybeElement { append(maybeElement) } }
+    mutating func appendIf(_ maybeElement: Element?) {
+        if let maybeElement { append(maybeElement) }
+    }
 
     mutating func insertIf(_ maybeElement: Element?, at index: Index) {
         if let maybeElement { insert(maybeElement, at: index) }
     }
 
-    mutating func pushIf(_ maybeElement: Element?) { insertIf(maybeElement, at: 0) }
+    mutating func pushIf(_ maybeElement: Element?) {
+        insertIf(maybeElement, at: 0)
+    }
 }
 
 extension WeatherConditions {
@@ -94,9 +100,9 @@ extension WeatherConditions {
         let zoneCfgReader = configReader.scoped(to: "zones")
         let keysAndValues = WeatherConditions.TempComfortZone.allCases.compactMap { zone in
             if let temp = zoneCfgReader.double(forKey: .init(zone.rawValue)) {
-                return (zone, Float(temp))
+                (zone, Float(temp))
             } else {
-                return nil
+                nil
             }
         }
         return keysAndValues.isEmpty

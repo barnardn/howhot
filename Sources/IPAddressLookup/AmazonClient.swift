@@ -10,7 +10,9 @@ final public class AmazonClient {
     private let url = URL(string: "https://checkip.amazonaws.com")!
     private let apiProvider: APIProvider
 
-    public init(apiProvider: APIProvider) { self.apiProvider = apiProvider }
+    public init(apiProvider: APIProvider) {
+        self.apiProvider = apiProvider
+    }
 
     public func fetchIPAddress() async throws -> String {
         do {

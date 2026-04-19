@@ -5,7 +5,9 @@ public struct Coordinates: Decodable {
     public let lon: Float
 }
 
-extension Coordinates: CustomStringConvertible { public var description: String { return "(\(lat), \(lon))" } }
+extension Coordinates: CustomStringConvertible { public var description: String {
+    "(\(lat), \(lon))"
+} }
 
 public struct Weather: Decodable {
     public let temp: Float
@@ -27,8 +29,7 @@ public struct Weather: Decodable {
 
 extension Weather: CustomStringConvertible {
     public var description: String {
-        return
-            "Temp: \(temp)°, Feels Like: \(feelsLike)°, Min: \(tempMin)°, Max: \(tempMax)°, Pressure: \(pressure) hPa, Humidity: \(humidity)%"
+        "Temp: \(temp)°, Feels Like: \(feelsLike)°, Min: \(tempMin)°, Max: \(tempMax)°, Pressure: \(pressure) hPa, Humidity: \(humidity)%"
     }
 }
 
@@ -40,7 +41,9 @@ public struct System: Decodable {
 }
 
 extension System: CustomStringConvertible {
-    public var description: String { return "Country: \(country), Sunrise: \(sunrise), Sunset: \(sunset)" }
+    public var description: String {
+        "Country: \(country), Sunrise: \(sunrise), Sunset: \(sunset)"
+    }
 }
 
 public struct Wind: Decodable {
@@ -58,7 +61,9 @@ extension Wind: CustomStringConvertible {
 
 public struct Cloud: Decodable { public let all: Int }
 
-extension Cloud: CustomStringConvertible { public var description: String { return "Cloud Cover: \(all)%" } }
+extension Cloud: CustomStringConvertible { public var description: String {
+    "Cloud Cover: \(all)%"
+} }
 
 public struct HourlyRate: Decodable {
     public let rate: Float
@@ -66,7 +71,9 @@ public struct HourlyRate: Decodable {
     enum CodingKeys: String, CodingKey { case rate = "1h" }
 }
 
-extension HourlyRate: CustomStringConvertible { public var description: String { return "\(rate) mm/h" } }
+extension HourlyRate: CustomStringConvertible { public var description: String {
+    "\(rate) mm/h"
+} }
 
 public struct Conditions: Decodable {
     public let id: Int?
@@ -83,7 +90,9 @@ public struct Conditions: Decodable {
 }
 
 extension Conditions: CustomStringConvertible {
-    public var description: String { return "\(main): \(conditionDescription)" }
+    public var description: String {
+        "\(main): \(conditionDescription)"
+    }
 }
 
 public struct Container: Decodable {
@@ -104,15 +113,15 @@ public struct Container: Decodable {
 extension Container: CustomStringConvertible {
     public var description: String {
         var result = """
-            Location: \(name) \(coord)
-            \(main)
-            Conditions: \(weather.map { $0.description }.joined(separator: ", "))
-            """
+        Location: \(name) \(coord)
+        \(main)
+        Conditions: \(weather.map(\.description).joined(separator: ", "))
+        """
 
-        if let wind = wind { result += "\n\(wind)" }
-        if let clouds = clouds { result += "\n\(clouds)" }
-        if let rain = rain { result += "\nRain: \(rain)" }
-        if let snow = snow { result += "\nSnow: \(snow)" }
+        if let wind { result += "\n\(wind)" }
+        if let clouds { result += "\n\(clouds)" }
+        if let rain { result += "\nRain: \(rain)" }
+        if let snow { result += "\nSnow: \(snow)" }
         result += "\nVisibility: \(visibility) m"
         result += "\n\(sys)"
 

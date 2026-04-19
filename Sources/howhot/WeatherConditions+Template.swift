@@ -37,7 +37,9 @@ extension WeatherConditions {
         return keys.compactMap(TemplateKey.init(rawValue:))
     }
 
-    private func replaceKeysWithPlaceholders(_ str: String) -> String { return str.replacing(/\{\w+\}/, with: "%@") }
+    private func replaceKeysWithPlaceholders(_ str: String) -> String {
+        str.replacing(/\{\w+\}/, with: "%@")
+    }
 
     private func description(for key: TemplateKey) throws -> String? {
         guard let keyPath = mapping[key], let value = self[keyPath: keyPath] as? CustomStringConvertible else {

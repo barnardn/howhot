@@ -13,12 +13,11 @@ public enum AppConfig {
         let configURL = URL(fileURLWithPath: configPath)
         let path = FilePath(stringLiteral: configURL.path())
 
-        let config = try ConfigReader(providers: [
+        return try await ConfigReader(providers: [
             // prefer values from environment..
             environmentProvider,
             // fall back to configuration file
-            await FileProvider<YAMLSnapshot>(filePath: path, allowMissing: true),
+            FileProvider<YAMLSnapshot>(filePath: path, allowMissing: true),
         ])
-        return config
     }
 }

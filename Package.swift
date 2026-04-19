@@ -4,20 +4,43 @@
 import PackageDescription
 
 extension Target.Dependency {
-    // internal
-    static var apiNetworking: Self { "APINetworking" }
-    static var configuration: Self { "Configuration" }
-    static var common: Self { "Common" }
-    static var ipAddressLookup: Self { "IPAddressLookup" }
-    static var geoLookup: Self { "GeoLookup" }
-    static var openWeatherMap: Self { "OpenWeatherMap" }
+    /// internal
+    static var apiNetworking: Self {
+        "APINetworking"
+    }
 
-    // external
-    static var swiftArgumentParger: Self { .product(name: "ArgumentParser", package: "swift-argument-parser") }
+    static var configuration: Self {
+        "Configuration"
+    }
 
-    static var swiftConfiguration: Self { .product(name: "Configuration", package: "swift-configuration") }
+    static var common: Self {
+        "Common"
+    }
 
-    static var consoleKit: Self { .product(name: "ConsoleKit", package: "console-kit") }
+    static var ipAddressLookup: Self {
+        "IPAddressLookup"
+    }
+
+    static var geoLookup: Self {
+        "GeoLookup"
+    }
+
+    static var openWeatherMap: Self {
+        "OpenWeatherMap"
+    }
+
+    /// external
+    static var swiftArgumentParger: Self {
+        .product(name: "ArgumentParser", package: "swift-argument-parser")
+    }
+
+    static var swiftConfiguration: Self {
+        .product(name: "Configuration", package: "swift-configuration")
+    }
+
+    static var consoleKit: Self {
+        .product(name: "ConsoleKit", package: "console-kit")
+    }
 }
 
 let package = Package(
@@ -47,5 +70,7 @@ let package = Package(
             name: "howhot",
             dependencies: [
                 .swiftArgumentParger, .ipAddressLookup, .geoLookup, .openWeatherMap, .swiftConfiguration, .consoleKit,
-            ]),
-    ])
+            ]
+        ),
+    ]
+)

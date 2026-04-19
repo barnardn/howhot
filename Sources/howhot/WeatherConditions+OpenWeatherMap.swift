@@ -7,7 +7,8 @@ extension WeatherConditions {
         let details = LocationDetails(
             country: owm.sys.country, name: owm.name,
             sunrise: Date(timeIntervalSince1970: TimeInterval(owm.sys.sunrise)),
-            sunset: Date(timeIntervalSince1970: TimeInterval(owm.sys.sunset)), gps: gps, tzOffset: owm.timezone)
+            sunset: Date(timeIntervalSince1970: TimeInterval(owm.sys.sunset)), gps: gps, tzOffset: owm.timezone
+        )
         self.location = details
         self.summary = owm.weather.map(\.conditionDescription).joined(separator: "\n")
         self.temperature = Temperature.measured(value: owm.main.temp, isMetric: isMetric)

@@ -14,10 +14,10 @@ public enum ApiError: Error {
     case badURL(String)
 }
 
-public enum HTTPStatusCode { public static let successCodes: Set<Int> = [200, 201, 202, 203, 204, 205] }
+public enum HTTPStatusCode { public static let successCodes: Set = [200, 201, 202, 203, 204, 205] }
 
 /// Return type for Api responses that return an empty body
-public struct EmptyResponse: Equatable, Decodable { public init() {} }
+public struct EmptyResponse: Equatable, Decodable { public init() { } }
 
 extension ApiError: CustomStringConvertible {
     public var description: String {
@@ -37,7 +37,7 @@ extension ApiError: CustomStringConvertible {
 
 public protocol NetworkDecoder { func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T }
 
-extension JSONDecoder: NetworkDecoder {}
+extension JSONDecoder: NetworkDecoder { }
 
 public class StringDecoder: NetworkDecoder {
     public enum StringDecodingError: Error {
@@ -46,9 +46,9 @@ public class StringDecoder: NetworkDecoder {
         case badValue
     }
 
-    public init() {}
+    public init() { }
 
-    public func decode<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
+    public func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
         guard type == String.self else { throw StringDecodingError.typeMismatch }
         guard let string = String(data: data, encoding: .utf8) else { throw StringDecodingError.invalidUTF8 }
         guard let retv = string as? T else { throw StringDecodingError.badValue }

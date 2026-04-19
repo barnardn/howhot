@@ -5,8 +5,9 @@ enum Speed: CustomStringConvertible {
     case kph(Float)
 
     var magnitude: Float {
-        return switch self {
-        case let .kph(mag), let .mph(mag): mag
+        switch self {
+        case let .kph(mag),
+             let .mph(mag): mag
         }
     }
 
@@ -23,7 +24,9 @@ enum Speed: CustomStringConvertible {
 struct PercentReading: CustomStringConvertible {
     let reading: Float
 
-    var description: String { String(format: "%0.1f%%", reading) }
+    var description: String {
+        String(format: "%0.1f%%", reading)
+    }
 }
 
 enum RatePerHour: CustomStringConvertible {
@@ -31,8 +34,9 @@ enum RatePerHour: CustomStringConvertible {
     case inches(Float)
 
     var reading: Float {
-        return switch self {
-        case let .mm(reading), let .inches(reading): reading
+        switch self {
+        case let .mm(reading),
+             let .inches(reading): reading
         }
     }
 
@@ -45,7 +49,9 @@ enum RatePerHour: CustomStringConvertible {
         return String(format: "%0.1f %@", reading, units)
     }
 
-    static func measured(reading: Float, isMetric: Bool = false) -> Self { isMetric ? .mm(reading) : .inches(reading) }
+    static func measured(reading: Float, isMetric: Bool = false) -> Self {
+        isMetric ? .mm(reading) : .inches(reading)
+    }
 }
 
 enum Temperature: CustomStringConvertible {
@@ -53,8 +59,9 @@ enum Temperature: CustomStringConvertible {
     case fahrenheit(Float)
 
     var reading: Float {
-        return switch self {
-        case let .fahrenheit(reading), let .celsius(reading): reading
+        switch self {
+        case let .fahrenheit(reading),
+             let .celsius(reading): reading
         }
     }
 

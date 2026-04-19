@@ -6,7 +6,9 @@ public struct Coordinates: Codable {
 }
 
 extension Coordinates: CustomStringConvertible {
-    public var description: String { return String(format: "Lat: %.8f, Lon: %.8f", latitude, longitude) }
+    public var description: String {
+        String(format: "Lat: %.8f, Lon: %.8f", latitude, longitude)
+    }
 }
 
 public struct LocationInfo: Codable {
@@ -23,15 +25,15 @@ public struct LocationInfo: Codable {
 
 extension LocationInfo: CustomStringConvertible {
     public var description: String {
-        return """
-            IP Address: \(ip)
-            Country: \(countryName)
-            State: \(regionName)
-            City: \(cityName)
-            Timezone: \(timeZone)
-            Zip code: \(zipCode)
-            Coordinates: \(coordinates.description)
-            """
+        """
+        IP Address: \(ip)
+        Country: \(countryName)
+        State: \(regionName)
+        City: \(cityName)
+        Timezone: \(timeZone)
+        Zip code: \(zipCode)
+        Coordinates: \(coordinates.description)
+        """
     }
 }
 
@@ -71,9 +73,10 @@ struct StandardLookupResponse: Codable {
     }
 
     func toLocationInfo() -> LocationInfo {
-        return LocationInfo(
+        LocationInfo(
             ip: ip, countryCode: countryCode, countryName: countryName, regionName: regionName, regionCode: regionCode,
             cityName: cityName, coordinates: Coordinates(latitude: latitude, longitude: longitude), zipCode: zipCode,
-            timeZone: timeZone)
+            timeZone: timeZone
+        )
     }
 }

@@ -14,11 +14,14 @@ public struct APIResponse<RT: Decodable> {
 final public class APIProvider: Sendable {
     private let transport: NetworkTransport
 
-    public init(transport: NetworkTransport = URLSession.shared) { self.transport = transport }
+    public init(transport: NetworkTransport = URLSession.shared) {
+        self.transport = transport
+    }
 
     public func apiResponse<RT: Decodable>(_ payloadType: RT.Type, url: URL, decoder: NetworkDecoder = JSONDecoder())
-        async throws -> APIResponse<RT>
-    { try await apiResponse(payloadType, request: URLRequest(url: url), decoder: decoder) }
+        async throws -> APIResponse<RT> {
+        try await apiResponse(payloadType, request: URLRequest(url: url), decoder: decoder)
+    }
 
     public func apiResponse<RT: Decodable>(
         _ payloadType: RT.Type, request: URLRequest, decoder: NetworkDecoder = JSONDecoder()
@@ -30,7 +33,9 @@ final public class APIProvider: Sendable {
 
     public func apiResponse(url: URL, decoder: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<
         EmptyResponse
-    > { try await apiResponse(request: URLRequest(url: url), decoder: decoder) }
+    > {
+        try await apiResponse(request: URLRequest(url: url), decoder: decoder)
+    }
 
     public func apiResponse(request: URLRequest, decoder: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<
         EmptyResponse
@@ -40,6 +45,10 @@ final public class APIProvider: Sendable {
     }
 }
 
-extension APIResponse { public var isEmpty: Bool { payload is EmptyResponse } }
+public extension APIResponse { var isEmpty: Bool {
+    payload is EmptyResponse
+} }
 
-extension APIProvider { public static var `default`: APIProvider { APIProvider() } }
+public extension APIProvider { static var `default`: APIProvider {
+    APIProvider()
+} }

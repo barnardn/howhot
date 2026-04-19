@@ -9,7 +9,8 @@ struct GeocodeCommand: AsyncParsableCommand {
     @OptionGroup var appOptions: AppOptions
 
     static let configuration = CommandConfiguration(
-        commandName: "geocode", abstract: "Determine location via IP address lookup")
+        commandName: "geocode", abstract: "Determine location via IP address lookup"
+    )
 
     @Option(help: "The ip address to geocode. Defaults to current ip address.") var address: String?
 
