@@ -5,9 +5,11 @@ public struct Coordinates: Decodable {
     public let lon: Float
 }
 
-extension Coordinates: CustomStringConvertible { public var description: String {
-    "(\(lat), \(lon))"
-} }
+extension Coordinates: CustomStringConvertible {
+    public var description: String {
+        "(\(lat), \(lon))"
+    }
+}
 
 public struct Weather: Decodable {
     public let temp: Float
@@ -71,9 +73,11 @@ public struct HourlyRate: Decodable {
     enum CodingKeys: String, CodingKey { case rate = "1h" }
 }
 
-extension HourlyRate: CustomStringConvertible { public var description: String {
-    "\(rate) mm/h"
-} }
+extension HourlyRate: CustomStringConvertible {
+    public var description: String {
+        "\(rate) mm/h"
+    }
+}
 
 public struct Conditions: Decodable {
     public let id: Int?
@@ -99,7 +103,7 @@ public struct Container: Decodable {
     public let id: Int?
     public let timezone: Int
     public let name: String
-    public let visibility: Int
+    public let visibility: Int?
     public let coord: Coordinates
     public let sys: System
     public let main: Weather
@@ -122,7 +126,9 @@ extension Container: CustomStringConvertible {
         if let clouds { result += "\n\(clouds)" }
         if let rain { result += "\nRain: \(rain)" }
         if let snow { result += "\nSnow: \(snow)" }
-        result += "\nVisibility: \(visibility) m"
+        if let visibility {
+            result += "\nVisibility: \(visibility) m"
+        }
         result += "\n\(sys)"
 
         return result
