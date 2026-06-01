@@ -10,7 +10,7 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
     @OptionGroup var appOptions: AppOptions
 
     static let configuration = CommandConfiguration(
-        commandName: "conditions", abstract: "Get current the weather conditions from the current location."
+        commandName: "zip", abstract: "Get current the weather conditions from the specified zip code."
     )
 
     @Argument(help: "The zip code of the current weather") var zip: String
