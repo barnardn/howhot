@@ -14,7 +14,7 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
     )
 
     var boringOutput: Bool {
-        appOptions.boringOutput || formatString == nil || jsonOutput
+        appOptions.boringOutput || formatString != nil || jsonOutput
     }
 
     @Argument(help: "The zip code of the current weather") var zip: String
