@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Coordinates: Decodable {
+public struct Coordinates: Codable {
     public let lat: Float
     public let lon: Float
 }
@@ -11,7 +11,7 @@ extension Coordinates: CustomStringConvertible {
     }
 }
 
-public struct Weather: Decodable {
+public struct Weather: Codable {
     public let temp: Float
     public let feelsLike: Float
     public let tempMin: Float
@@ -35,7 +35,7 @@ extension Weather: CustomStringConvertible {
     }
 }
 
-public struct System: Decodable {
+public struct System: Codable {
     public let id: Int?
     public let country: String
     public let sunrise: Int64
@@ -48,7 +48,7 @@ extension System: CustomStringConvertible {
     }
 }
 
-public struct Wind: Decodable {
+public struct Wind: Codable {
     public let speed: Float
     public let deg: Int
     public let gust: Float?
@@ -61,13 +61,13 @@ extension Wind: CustomStringConvertible {
     }
 }
 
-public struct Cloud: Decodable { public let all: Int }
+public struct Cloud: Codable { public let all: Int }
 
 extension Cloud: CustomStringConvertible { public var description: String {
     "Cloud Cover: \(all)%"
 } }
 
-public struct HourlyRate: Decodable {
+public struct HourlyRate: Codable {
     public let rate: Float
 
     enum CodingKeys: String, CodingKey { case rate = "1h" }
@@ -79,7 +79,7 @@ extension HourlyRate: CustomStringConvertible {
     }
 }
 
-public struct Conditions: Decodable {
+public struct Conditions: Codable {
     public let id: Int?
     public let main: String
     public let conditionDescription: String
@@ -99,7 +99,7 @@ extension Conditions: CustomStringConvertible {
     }
 }
 
-public struct Container: Decodable {
+public struct Container: Codable {
     public let id: Int?
     public let timezone: Int
     public let name: String

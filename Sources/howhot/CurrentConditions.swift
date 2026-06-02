@@ -13,9 +13,14 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
         commandName: "zip", abstract: "Get current the weather conditions from the specified zip code."
     )
 
+    var boringOutput: Bool {
+        appOptions.boringOutput || formatString == nil || jsonOutput
+    }
+
     @Argument(help: "The zip code of the current weather") var zip: String
 
     @Option(help: "Returns the values in the format string (implies boring output mode") var formatString: String? = nil
+    @Flag(help: "Returns the weather conditions as a JSON object (implies boring output mode") var jsonOutput = false
 
     mutating func run() async throws {
         let config = try await AppConfig.configReader(configPath: appOptions.configFile)
@@ -25,12 +30,21 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
         let terminal = Terminal()
         let client = OpenWeatherMapClient(apiKey: apiKey, apiProvider: .default)
         let conditions: WeatherConditions
-        if appOptions.boringOutput || formatString != nil {
+        if boringOutput {
             let owConditions = try await client.currentConditions(zip: zip, isMetric: appOptions.metric)
             conditions = WeatherConditions(from: owConditions, isMetric: appOptions.metric)
             if let formatString {
                 let formatted = try conditions.parse(format: formatString)
                 print(formatted)
+            } else if jsonOutput {
+                switch conditions.asJson() {
+                case let .success(.some(str)):
+                    print(str)
+                case .success(.none):
+                    print("JSON encoding returned empty string")
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
             } else {
                 print(conditions)
             }
@@ -43,6 +57,17 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
             let zoneMap = WeatherConditions.createZoneMap(configReader: config)
             let consoleLines = conditions.fancyOutput(zoneMap: zoneMap)
             consoleLines.forEach { line in terminal.output(line, newLine: true) }
+        }
+    }
+}
+
+private extension WeatherConditions {
+    func asJson() -> Result<String?, Error> {
+        do {
+            let jsonData = try JSONEncoder().encode(self)
+            return .success(String(data: jsonData, encoding: .utf8))
+        } catch {
+            return .failure(error)
         }
     }
 }

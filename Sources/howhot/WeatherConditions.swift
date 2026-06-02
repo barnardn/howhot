@@ -2,7 +2,7 @@ import Foundation
 
 private let DegreesSymbol = "°"
 
-struct WeatherConditions: CustomStringConvertible {
+struct WeatherConditions: CustomStringConvertible, Codable {
     let location: LocationDetails
     let summary: String // conditionDescription
     let temperature: Temperature
@@ -41,7 +41,7 @@ struct WeatherConditions: CustomStringConvertible {
     }
 }
 
-struct GPS: CustomStringConvertible {
+struct GPS: CustomStringConvertible, Codable {
     let lat: Float
     let lon: Float
 
@@ -50,15 +50,15 @@ struct GPS: CustomStringConvertible {
     }
 }
 
-struct SurfaceWind: CustomStringConvertible {
+struct SurfaceWind: CustomStringConvertible, Codable {
     let winds: Speed
     let gusts: Speed?
     let degrees: Int
 
     init(windSpeed: Float, gustSpeed: Float?, degrees: Int, isMetric: Bool = false) {
         self.degrees = degrees
-        self.winds = isMetric ? .kph(windSpeed) : .mph(windSpeed)
-        if let gustSpeed { self.gusts = isMetric ? .kph(gustSpeed) : .mph(gustSpeed) } else { self.gusts = nil }
+        winds = isMetric ? .kph(windSpeed) : .mph(windSpeed)
+        if let gustSpeed { gusts = isMetric ? .kph(gustSpeed) : .mph(gustSpeed) } else { gusts = nil }
     }
 
     var description: String {
@@ -68,7 +68,7 @@ struct SurfaceWind: CustomStringConvertible {
     }
 }
 
-struct LocationDetails: CustomStringConvertible {
+struct LocationDetails: CustomStringConvertible, Codable {
     let country: String
     let name: String
     let sunrise: Date
@@ -82,7 +82,7 @@ struct LocationDetails: CustomStringConvertible {
         self.sunset = sunset
         self.sunrise = sunrise
         self.gps = gps
-        self.timezone = TimeZone(secondsFromGMT: tzOffset) ?? .gmt
+        timezone = TimeZone(secondsFromGMT: tzOffset) ?? .gmt
     }
 
     private func localDateFormatter() -> DateFormatter {

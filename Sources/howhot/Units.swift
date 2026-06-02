@@ -1,6 +1,6 @@
 import Foundation
 
-enum Speed: CustomStringConvertible {
+enum Speed: CustomStringConvertible, Codable {
     case mph(Float)
     case kph(Float)
 
@@ -21,7 +21,7 @@ enum Speed: CustomStringConvertible {
     }
 }
 
-struct PercentReading: CustomStringConvertible {
+struct PercentReading: CustomStringConvertible, Codable {
     let reading: Float
 
     var description: String {
@@ -29,7 +29,7 @@ struct PercentReading: CustomStringConvertible {
     }
 }
 
-enum RatePerHour: CustomStringConvertible {
+enum RatePerHour: CustomStringConvertible, Codable {
     case mm(Float)
     case inches(Float)
 
@@ -54,7 +54,7 @@ enum RatePerHour: CustomStringConvertible {
     }
 }
 
-enum Temperature: CustomStringConvertible {
+enum Temperature: CustomStringConvertible, Codable {
     case celsius(Float)
     case fahrenheit(Float)
 
