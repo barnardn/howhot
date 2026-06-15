@@ -19,8 +19,8 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
 
     @Argument(help: "The zip code of the current weather") var zip: String
 
-    @Option(help: "Returns the values in the format string (implies boring output mode") var formatString: String? = nil
-    @Flag(help: "Returns the weather conditions as a JSON object (implies boring output mode") var jsonOutput = false
+    @Option(help: "Returns the values in the format string (implies boring output mode)") var formatString: String? = nil
+    @Flag(help: "Returns the weather conditions as a JSON object (implies boring output mode)") var jsonOutput = false
 
     mutating func run() async throws {
         let config = try await AppConfig.configReader(configPath: appOptions.configFile)
