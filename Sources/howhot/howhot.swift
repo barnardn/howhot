@@ -9,7 +9,7 @@ import OpenWeatherMap
 import SystemPackage
 
 enum Const {
-    static let version = "1.1.2"
+    static let version = "1.2"
 }
 
 struct AppOptions: ParsableArguments {
