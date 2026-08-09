@@ -1,41 +1,5 @@
+import Common
 import Foundation
-
-public struct Coordinates: Codable {
-    public let latitude: Float
-    public let longitude: Float
-}
-
-extension Coordinates: CustomStringConvertible {
-    public var description: String {
-        String(format: "Lat: %.8f, Lon: %.8f", latitude, longitude)
-    }
-}
-
-public struct LocationInfo: Codable {
-    public let ip: String
-    public let countryCode: String
-    public let countryName: String
-    public let regionName: String
-    public let regionCode: String
-    public let cityName: String
-    public let coordinates: Coordinates
-    public let zipCode: String
-    public let timeZone: String
-}
-
-extension LocationInfo: CustomStringConvertible {
-    public var description: String {
-        """
-        IP Address: \(ip)
-        Country: \(countryName)
-        State: \(regionName)
-        City: \(cityName)
-        Timezone: \(timeZone)
-        Zip code: \(zipCode)
-        Coordinates: \(coordinates.description)
-        """
-    }
-}
 
 struct StandardLookupResponse: Codable {
     let ip: String
@@ -48,8 +12,8 @@ struct StandardLookupResponse: Codable {
     let regionName: String
     let regionCode: String
     let cityName: String
-    let latitude: Float
-    let longitude: Float
+    let latitude: Double
+    let longitude: Double
     let zipCode: String
     let timeZone: String
     let iddCode: String
@@ -71,12 +35,14 @@ struct StandardLookupResponse: Codable {
         case timeZone
         case iddCode
     }
+}
 
-    func toLocationInfo() -> LocationInfo {
-        LocationInfo(
-            ip: ip, countryCode: countryCode, countryName: countryName, regionName: regionName, regionCode: regionCode,
-            cityName: cityName, coordinates: Coordinates(latitude: latitude, longitude: longitude), zipCode: zipCode,
-            timeZone: timeZone
-        )
-    }
+extension StandardLookupResponse: SupportsLocationInfo {
+   func toLocationInfo() -> LocationInfo {
+       LocationInfo(
+           ip: ip, countryCode: countryCode, countryName: countryName, regionName: regionName, regionCode: regionCode,
+           cityName: cityName, coordinates: Coordinates(latitude: latitude, longitude: longitude), zipCode: zipCode,
+           timeZone: timeZone
+       )
+   }
 }
