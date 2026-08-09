@@ -2,7 +2,7 @@ import Common
 import Foundation
 
 public struct IPGeolocation: Codable {
-    let ipVersion: Int
+   	let ipVersion: Int
     let ipAddress: String
     let latitude: Double
     let longitude: Double
@@ -25,17 +25,17 @@ public struct IPGeolocation: Codable {
 }
 
 extension IPGeolocation: SupportsLocationInfo {
-	func toLocationInfo() -> LocationInfo {
+	public func toLocationInfo() -> LocationInfo {
 		LocationInfo(
-		ip: ipAddress, 
-		countryCode: countryCode, 
-		countryName: countryName, 
-		regionName: regionName, 
-		regionCode: regionCode, 
-		cityName: cityName, 
-		coordinates: Coordinates(latitude: latitude, longitude: longitude), 
-		zipCode: zipCode, 
-		timeZone: nil
+			ip: ipAddress, 
+			countryCode: countryCode, 
+			countryName: countryName, 
+			regionName: regionName, 
+			regionCode: regionCode, 
+			cityName: cityName, 
+			coordinates: Coordinates(latitude: latitude, longitude: longitude), 
+			zipCode: zipCode, 
+			timeZone: nil
 		)
 	}
 }

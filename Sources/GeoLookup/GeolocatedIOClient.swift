@@ -20,7 +20,15 @@ final public class GeolocatedIOClient: LocationInfoClient {
     
 	public func queryURL(ipAddress: String) -> String {
     	return "https://\(host)/ip/\(ipAddress)?api-key=\(apiKey)"
-    }    
+    }
+    
+	public func geoLocation(ipAddress: String) async throws -> LocationInfo {
+    	let queryURL = queryURL(ipAddress: ipAddress)
+        guard let url = URL(string: queryURL) else { throw ApiError.badURL(queryURL) }
+        let response = try await apiProvider.apiResponse(StandardLookupResponse.self, request: URLRequest(url: url))
+        return response.payload.toLocationInfo()
+    }
+        
 }
 
 

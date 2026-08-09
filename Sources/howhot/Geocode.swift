@@ -18,7 +18,7 @@ struct GeocodeCommand: AsyncParsableCommand {
 
     mutating func run() async throws {
         let config = try await AppConfig.configReader(configPath: appOptions.configFile)
-        guard let apiKey = config.string(forKey: "geokey") else { throw AppError.missingApiKey("geokey") }
+        guard config.string(forKey: "geokey") != nil else { throw AppError.missingApiKey("geokey") }
         let ipAddress: String
         if let address {
             ipAddress = address
@@ -26,7 +26,7 @@ struct GeocodeCommand: AsyncParsableCommand {
             let ipClient = AmazonClient(apiProvider: .default)
             ipAddress = try await ipClient.fetchIPAddress()
         }
-        let geoClient = GeolocatedIOClient(apiKey: apiKey, apiProvider: .default)
+		let geoClient = FreeIPAPIClient(apiProvider: .default)
         let locationInfo = try await geoClient.geoLocation(ipAddress: ipAddress)
         if zipOnly { print(locationInfo.zipCode) } else { print(locationInfo.description) }
     }

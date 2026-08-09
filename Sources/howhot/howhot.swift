@@ -74,7 +74,7 @@ struct AppOptions: ParsableArguments {
         let ipClient = AmazonClient(apiProvider: .default)
         let ipAddress = try await ipClient.fetchIPAddress()
 
-        let geoClient = GeolocatedIOClient(apiKey: geoKey, apiProvider: .default)
+        let geoClient = FreeIPAPIClient(apiProvider: .default)
         let locationInfo = try await geoClient.geoLocation(ipAddress: ipAddress)
 
         let weatherClient = OpenWeatherMapClient(apiKey: weatherKey, apiProvider: .default)

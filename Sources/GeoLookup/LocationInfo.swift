@@ -14,7 +14,7 @@ public struct LocationInfo: Codable {
     public let timeZone: String?
 }
 
-protocol SupportsLocationInfo {
+public protocol SupportsLocationInfo {
 	func toLocationInfo() -> LocationInfo
 }
 
@@ -23,16 +23,6 @@ public protocol LocationInfoClient {
 	func queryURL(ipAddress: String) -> String
 	func geoLocation(ipAddress: String) async throws -> LocationInfo
 }
-
-public extension LocationInfoClient {
-    func geoLocation(ipAddress: String) async throws -> LocationInfo {
-    	let queryURL = queryURL(ipAddress: ipAddress)
-        guard let url = URL(string: queryURL) else { throw ApiError.badURL(queryURL) }
-        let response = try await apiProvider.apiResponse(StandardLookupResponse.self, request: URLRequest(url: url))
-        return response.payload.toLocationInfo()
-    }
-}
-
 
 extension LocationInfo: CustomStringConvertible {
     public var description: String {
