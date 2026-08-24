@@ -87,11 +87,15 @@ struct AppOptions: ParsableArguments {
 
 extension Array {
     mutating func appendIf(_ maybeElement: Element?) {
-        if let maybeElement { append(maybeElement) }
+        if let maybeElement {
+            append(maybeElement)
+        }
     }
 
     mutating func insertIf(_ maybeElement: Element?, at index: Index) {
-        if let maybeElement { insert(maybeElement, at: index) }
+        if let maybeElement {
+            insert(maybeElement, at: index)
+        }
     }
 
     mutating func pushIf(_ maybeElement: Element?) {

@@ -26,8 +26,12 @@ struct GeocodeCommand: AsyncParsableCommand {
             let ipClient = AmazonClient(apiProvider: .default)
             ipAddress = try await ipClient.fetchIPAddress()
         }
-		let geoClient = FreeIPAPIClient(apiProvider: .default)
+        let geoClient = FreeIPAPIClient(apiProvider: .default)
         let locationInfo = try await geoClient.geoLocation(ipAddress: ipAddress)
-        if zipOnly { print(locationInfo.zipCode) } else { print(locationInfo.description) }
+        if zipOnly {
+            print(locationInfo.zipCode)
+        } else {
+            print(locationInfo.description)
+        }
     }
 }

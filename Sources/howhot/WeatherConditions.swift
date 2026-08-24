@@ -57,13 +57,19 @@ struct SurfaceWind: CustomStringConvertible, Codable {
 
     init(windSpeed: Float, gustSpeed: Float?, degrees: Int, isMetric: Bool = false) {
         self.degrees = degrees
-        winds = isMetric ? .kph(windSpeed) : .mph(windSpeed)
-        if let gustSpeed { gusts = isMetric ? .kph(gustSpeed) : .mph(gustSpeed) } else { gusts = nil }
+        self.winds = isMetric ? .kph(windSpeed) : .mph(windSpeed)
+        if let gustSpeed {
+            self.gusts = isMetric ? .kph(gustSpeed) : .mph(gustSpeed)
+        } else {
+            self.gusts = nil
+        }
     }
 
     var description: String {
         let ws = "Wind Speed: \(winds) at \(degrees)\(DegreesSymbol)"
-        if let gusts { return "\(ws) with Gusts at \(gusts)" }
+        if let gusts {
+            return "\(ws) with Gusts at \(gusts)"
+        }
         return ws
     }
 }
@@ -82,7 +88,7 @@ struct LocationDetails: CustomStringConvertible, Codable {
         self.sunset = sunset
         self.sunrise = sunrise
         self.gps = gps
-        timezone = TimeZone(secondsFromGMT: tzOffset) ?? .gmt
+        self.timezone = TimeZone(secondsFromGMT: tzOffset) ?? .gmt
     }
 
     private func localDateFormatter() -> DateFormatter {

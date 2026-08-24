@@ -15,13 +15,13 @@ public struct LocationInfo: Codable {
 }
 
 public protocol SupportsLocationInfo {
-	func toLocationInfo() -> LocationInfo
+    func toLocationInfo() -> LocationInfo
 }
 
 public protocol LocationInfoClient {
-	var apiProvider: APIProvider { get }
-	func queryURL(ipAddress: String) -> String
-	func geoLocation(ipAddress: String) async throws -> LocationInfo
+    var apiProvider: APIProvider { get }
+    func queryURL(ipAddress: String) -> String
+    func geoLocation(ipAddress: String) async throws -> LocationInfo
 }
 
 extension LocationInfo: CustomStringConvertible {

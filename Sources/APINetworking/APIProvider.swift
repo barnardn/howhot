@@ -11,7 +11,7 @@ public struct APIResponse<RT: Decodable> {
     public let response: HTTPURLResponse
 }
 
-final public class APIProvider: Sendable {
+public final class APIProvider: Sendable {
     private let transport: NetworkTransport
 
     public init(transport: NetworkTransport = URLSession.shared) {
@@ -19,12 +19,13 @@ final public class APIProvider: Sendable {
     }
 
     public func apiResponse<RT: Decodable>(_ payloadType: RT.Type, url: URL, decoder: NetworkDecoder = JSONDecoder())
-        async throws -> APIResponse<RT> {
+        async throws -> APIResponse<RT>
+    {
         try await apiResponse(payloadType, request: URLRequest(url: url), decoder: decoder)
     }
 
     public func apiResponse<RT: Decodable>(
-        _ payloadType: RT.Type, request: URLRequest, decoder: NetworkDecoder = JSONDecoder()
+        _: RT.Type, request: URLRequest, decoder: NetworkDecoder = JSONDecoder()
     ) async throws -> APIResponse<RT> {
         let (data, rsp) = try await transport.rawResponse(for: request)
         let payload = try decoder.decode(RT.self, from: data)
@@ -37,7 +38,7 @@ final public class APIProvider: Sendable {
         try await apiResponse(request: URLRequest(url: url), decoder: decoder)
     }
 
-    public func apiResponse(request: URLRequest, decoder: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<
+    public func apiResponse(request: URLRequest, decoder _: NetworkDecoder = JSONDecoder()) async throws -> APIResponse<
         EmptyResponse
     > {
         let (_, rsp) = try await transport.rawResponse(for: request)

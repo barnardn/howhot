@@ -122,10 +122,18 @@ extension Container: CustomStringConvertible {
         Conditions: \(weather.map(\.description).joined(separator: ", "))
         """
 
-        if let wind { result += "\n\(wind)" }
-        if let clouds { result += "\n\(clouds)" }
-        if let rain { result += "\nRain: \(rain)" }
-        if let snow { result += "\nSnow: \(snow)" }
+        if let wind {
+            result += "\n\(wind)"
+        }
+        if let clouds {
+            result += "\n\(clouds)"
+        }
+        if let rain {
+            result += "\nRain: \(rain)"
+        }
+        if let snow {
+            result += "\nSnow: \(snow)"
+        }
         if let visibility {
             result += "\nVisibility: \(visibility) m"
         }

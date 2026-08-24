@@ -33,7 +33,9 @@ extension WeatherConditions {
         let keys = matches.map { String($0.1) }
         let allPossible = TemplateKey.allCases.map(\.rawValue)
         let unknown = keys.filter { !allPossible.contains($0) }
-        if !unknown.isEmpty { throw ParseError.invalidInput(str, unknown) }
+        if !unknown.isEmpty {
+            throw ParseError.invalidInput(str, unknown)
+        }
         return keys.compactMap(TemplateKey.init(rawValue:))
     }
 

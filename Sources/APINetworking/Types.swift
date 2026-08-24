@@ -22,7 +22,11 @@ public struct EmptyResponse: Equatable, Decodable { public init() { } }
 extension ApiError: CustomStringConvertible {
     public var description: String {
         switch self {
-        case let .badResponse(urlRsp): if let url = urlRsp.url { "Bad Response: \(url)" } else { "Bad Response" }
+        case let .badResponse(urlRsp): if let url = urlRsp.url {
+                "Bad Response: \(url)"
+            } else {
+                "Bad Response"
+            }
         case let .requestFailed(httpRsp):
             if let url = httpRsp.url {
                 "Request Failed (status: \(httpRsp.statusCode)): \(url)"

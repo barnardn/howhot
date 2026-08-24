@@ -38,11 +38,11 @@ struct StandardLookupResponse: Codable {
 }
 
 extension StandardLookupResponse: SupportsLocationInfo {
-   public func toLocationInfo() -> LocationInfo {
-       LocationInfo(
-           ip: ip, countryCode: countryCode, countryName: countryName, regionName: regionName, regionCode: regionCode,
-           cityName: cityName, coordinates: Coordinates(latitude: latitude, longitude: longitude), zipCode: zipCode,
-           timeZone: timeZone
-       )
-   }
+    func toLocationInfo() -> LocationInfo {
+        LocationInfo(
+            ip: ip, countryCode: countryCode, countryName: countryName, regionName: regionName, regionCode: regionCode,
+            cityName: cityName, coordinates: Coordinates(latitude: latitude, longitude: longitude), zipCode: zipCode,
+            timeZone: timeZone
+        )
+    }
 }
