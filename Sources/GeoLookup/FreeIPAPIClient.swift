@@ -7,12 +7,12 @@ import Foundation
     import Network
 #endif
 
-final public class FreeIPAPIClient: LocationInfoClient {
+public final class FreeIPAPIClient: LocationInfoClient {
     private let host = "free.freeipapi.com"
     public let apiProvider: APIProvider
 
     public func queryURL(ipAddress: String) -> String {
-        "https://\(host)/api/json/\(ipAddress)"
+        "https://\(host)/api/v1/json/\(ipAddress)"
     }
 
     public init(apiProvider: APIProvider) {

@@ -10,7 +10,7 @@ public struct LocationInfo: Codable {
     public let regionCode: String
     public let cityName: String
     public let coordinates: Coordinates
-    public let zipCode: String
+    public let zipCode: String?
     public let timeZone: String?
 }
 
@@ -32,7 +32,7 @@ extension LocationInfo: CustomStringConvertible {
         State: \(regionName)
         City: \(cityName)
         Timezone: \(timeZone ?? "")
-        Zip code: \(zipCode)
+        Zip code: \(zipCode ?? "")
         Coordinates: \(coordinates.description)
         """
     }

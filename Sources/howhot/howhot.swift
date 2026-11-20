@@ -9,7 +9,7 @@ import OpenWeatherMap
 import SystemPackage
 
 enum Const {
-    static let version = "1.2"
+    static let version = "1.2.1"
 }
 
 struct AppOptions: ParsableArguments {
@@ -70,7 +70,7 @@ struct AppOptions: ParsableArguments {
         }
     }
 
-    private func fetchConditions(geoKey: String, weatherKey: String) async throws -> WeatherConditions {
+    private func fetchConditions(geoKey _: String, weatherKey: String) async throws -> WeatherConditions {
         let ipClient = AmazonClient(apiProvider: .default)
         let ipAddress = try await ipClient.fetchIPAddress()
 
@@ -78,9 +78,12 @@ struct AppOptions: ParsableArguments {
         let locationInfo = try await geoClient.geoLocation(ipAddress: ipAddress)
 
         let weatherClient = OpenWeatherMapClient(apiKey: weatherKey, apiProvider: .default)
+
         let owConditions = try await weatherClient.currentConditions(
-            zip: locationInfo.zipCode, isMetric: appOptions.metric
+            location: locationInfo.coordinates,
+            isMetric: appOptions.metric
         )
+
         return WeatherConditions(from: owConditions)
     }
 }

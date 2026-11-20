@@ -11,7 +11,7 @@ public struct IPGeolocation: Codable {
     let capital: String
     let phoneCodes: [Int]
     let timeZones: [String]
-    let zipCode: String
+    let zipCode: String?
     let cityName: String
     let regionName: String
     let regionCode: String
@@ -49,7 +49,7 @@ extension IPGeolocation: CustomStringConvertible {
         Country Name: \(countryName)
         Country Code: \(countryCode)
         Capital: \(capital)
-        Zip Code: \(zipCode)
+        Zip Code: \(zipCode ?? "")
         City Name: \(cityName)
         Region Name: \(regionName)
         Region Code: \(regionCode)
