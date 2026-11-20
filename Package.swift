@@ -53,11 +53,11 @@ let package = Package(
         .library(name: "OpenWeatherMap", targets: ["OpenWeatherMap"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
-        .package(url: "https://github.com/apple/swift-configuration", from: "1.0.0", traits: [.defaults, "YAML"]),
-        // Only added explicitly as a workaround for https://github.com/apple/swift-configuration/issues/89
-        .package(url: "https://github.com/jpsim/Yams", "5.4.0"..<"7.0.0"),
-        .package(url: "https://github.com/vapor/console-kit", from: "5.0.0-alpha.4"),
+        // call out latest async algorithms to avoid build error with swift collections
+        .package(url: "https://github.com/apple/swift-async-algorithms.git", from: "1.1.7"),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.7.0"),
+        .package(url: "https://github.com/apple/swift-configuration", from: "1.5.0", traits: [.defaults, "YAML"]),
+        .package(url: "https://github.com/vapor/console-kit", from: "5.0.0-beta.3"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
