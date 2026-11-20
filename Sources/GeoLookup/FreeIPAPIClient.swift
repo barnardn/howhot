@@ -7,7 +7,7 @@ import Foundation
     import Network
 #endif
 
-public final class FreeIPAPIClient: LocationInfoClient {
+final public class FreeIPAPIClient: LocationInfoClient {
     private let host = "free.freeipapi.com"
     public let apiProvider: APIProvider
 

@@ -2,7 +2,7 @@ import APINetworking
 import Common
 import Foundation
 
-public final class OpenWeatherMapClient: Sendable {
+final public class OpenWeatherMapClient: Sendable {
     private let host = "api.openweathermap.org"
     private let conditionsPath = "data/2.5/weather?appid=%@&zip=%@&units=%@"
     private let apiKey: String
