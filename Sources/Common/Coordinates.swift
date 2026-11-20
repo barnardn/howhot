@@ -12,6 +12,6 @@ public struct Coordinates: Codable {
 
 extension Coordinates: CustomStringConvertible {
     public var description: String {
-        String(format: "Lat: %.8f, Lon: %.8f", latitude, longitude)
+        String(format: "%.8f,%.8f", latitude, longitude)
     }
 }
