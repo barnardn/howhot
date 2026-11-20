@@ -5,11 +5,10 @@ import Foundation
 import GeoLookup
 import IPAddressLookup
 
-
 enum OutputMode: String, EnumerableFlag {
-	case zipcode
-	case gps
-	case full
+    case zipcode
+    case gps
+    case full
 }
 
 struct GeocodeCommand: AsyncParsableCommand {
@@ -21,7 +20,7 @@ struct GeocodeCommand: AsyncParsableCommand {
 
     @Option(help: "The ip address to geocode. Defaults to current ip address.") var address: String?
 
-	@Flag(exclusivity: .exclusive, help: "Output mode") var outputMode: OutputMode = .full
+    @Flag(exclusivity: .exclusive, help: "Output mode") var outputMode: OutputMode = .full
 
     mutating func run() async throws {
         let config = try await AppConfig.configReader(configPath: appOptions.configFile)
@@ -35,15 +34,15 @@ struct GeocodeCommand: AsyncParsableCommand {
         }
         let geoClient = FreeIPAPIClient(apiProvider: .default)
         let locationInfo = try await geoClient.geoLocation(ipAddress: ipAddress)
-        
+
         let output = switch outputMode {
-        	case .gps:
-				"\(locationInfo.coordinates)"
-			case .zipcode:
-				"\(locationInfo.zipCode ?? "null")"
-			default:
-				locationInfo.description
+        case .gps:
+            "\(locationInfo.coordinates)"
+        case .zipcode:
+            "\(locationInfo.zipCode ?? "null")"
+        default:
+            locationInfo.description
         }
-		print(output)
+        print(output)
     }
 }
