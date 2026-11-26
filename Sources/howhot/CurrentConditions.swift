@@ -36,7 +36,7 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
     @Flag(help: "Returns the weather conditions as a JSON object (implies boring output mode)") var jsonOutput = false
 
     mutating func validate() throws {
-        if zip == nil && gps == nil {
+        if zip == nil, gps == nil {
             throw ValidationError("You must specifiy a zip code or gps coordinates")
         }
         if zip != nil {
@@ -45,10 +45,10 @@ struct CurrentConditionsCommand: AsyncParsableCommand {
         guard let coordinates else {
             throw ValidationError("You must specifiy valid gps coordinates: \"lat,lon\"")
         }
-        guard coordinates.latitude <= 90 && coordinates.latitude >= -90 else {
+        guard coordinates.latitude <= 90, coordinates.latitude >= -90 else {
             throw ValidationError("Latitude must be in range [-90, 90")
         }
-        guard coordinates.longitude <= 180 && coordinates.longitude >= -180 else {
+        guard coordinates.longitude <= 180, coordinates.longitude >= -180 else {
             throw ValidationError("Longitude must be in rnage [-180, 180]")
         }
     }
